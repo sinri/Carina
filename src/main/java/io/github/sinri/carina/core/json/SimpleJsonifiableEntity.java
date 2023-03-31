@@ -1,9 +1,7 @@
-package io.github.sinri.keel.core.json;
+package io.github.sinri.carina.core.json;
 
 import io.vertx.core.json.JsonObject;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 /**
  * @since 2.7
@@ -32,8 +30,11 @@ public class SimpleJsonifiableEntity implements JsonifiableEntity<SimpleJsonifia
      */
     @Override
     public @NotNull SimpleJsonifiableEntity reloadDataFromJsonObject(JsonObject jsonObject) {
-        // Objects.requireNonNull(jsonObject);
-        this.jsonObject = Objects.requireNonNullElseGet(jsonObject, JsonObject::new);
+        if (jsonObject == null) {
+            this.jsonObject = new JsonObject();
+        } else {
+            this.jsonObject = jsonObject;
+        }
         return this;
     }
 
@@ -42,7 +43,8 @@ public class SimpleJsonifiableEntity implements JsonifiableEntity<SimpleJsonifia
      */
     @Override
     public String toString() {
-        return Objects.requireNonNullElse(toJsonObject(), new JsonObject()).toString();
+        JsonObject x = toJsonObject();
+        return x.toString();
     }
 
     @Override

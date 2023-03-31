@@ -6,14 +6,14 @@ import java.lang.reflect.Method;
 /**
  * @since 2.6
  */
-public class KeelReflectionHelper {
-    private static final KeelReflectionHelper instance = new KeelReflectionHelper();
+public class CarinaReflectionHelper {
+    private static final CarinaReflectionHelper instance = new CarinaReflectionHelper();
 
-    private KeelReflectionHelper() {
+    private CarinaReflectionHelper() {
 
     }
 
-    static KeelReflectionHelper getInstance() {
+    static CarinaReflectionHelper getInstance() {
         return instance;
     }
 

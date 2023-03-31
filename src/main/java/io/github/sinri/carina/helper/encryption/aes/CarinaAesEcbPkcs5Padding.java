@@ -10,12 +10,12 @@ import java.util.Base64;
 /**
  * @since 2.8
  */
-public class KeelAesEcbPkcs5Padding extends KeelAesUsingPkcs5Padding {
+public class CarinaAesEcbPkcs5Padding extends CarinaAesUsingPkcs5Padding {
 
     /**
      * @param key AES要求密钥长度为128位或192位或256位，java默认限制AES密钥长度最多128位
      */
-    public KeelAesEcbPkcs5Padding(String key) {
+    public CarinaAesEcbPkcs5Padding(String key) {
         super(key);
     }
 
@@ -25,7 +25,7 @@ public class KeelAesEcbPkcs5Padding extends KeelAesUsingPkcs5Padding {
         String key = Base64.getEncoder().encodeToString(secretKey.getEncoded());
         System.out.println("generated key = " + key);
 
-        KeelAesEcbPkcs5Padding aes = new KeelAesEcbPkcs5Padding(key);
+        CarinaAesEcbPkcs5Padding aes = new CarinaAesEcbPkcs5Padding(key);
 
         // 加密
         long lStart = System.currentTimeMillis();

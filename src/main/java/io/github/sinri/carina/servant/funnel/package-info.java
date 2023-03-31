@@ -1,1 +1,1 @@
-package io.github.sinri.keel.servant.funnel;
+package io.github.sinri.carina.servant.funnel;

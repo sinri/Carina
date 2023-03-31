@@ -1,59 +1,59 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
 /**
  * @since 3.0.0
  * 使用此类可以实现无需启动 VERTX 即可使用 HELPER。
  */
-public interface KeelHelpers {
+public interface CarinaHelpers {
 
-    static KeelBinaryHelper binaryHelper() {
-        return KeelBinaryHelper.getInstance();
+    static CarinaBinaryHelper binaryHelper() {
+        return CarinaBinaryHelper.getInstance();
     }
 
-    static KeelDateTimeHelper datetimeHelper() {
-        return KeelDateTimeHelper.getInstance();
+    static CarinaDateTimeHelper datetimeHelper() {
+        return CarinaDateTimeHelper.getInstance();
     }
 
-    static KeelFileHelper fileHelper() {
-        return KeelFileHelper.getInstance();
+    static CarinaFileHelper fileHelper() {
+        return CarinaFileHelper.getInstance();
     }
 
-    static KeelJsonHelper jsonHelper() {
-        return KeelJsonHelper.getInstance();
+    static CarinaJsonHelper jsonHelper() {
+        return CarinaJsonHelper.getInstance();
     }
 
-    static KeelNetHelper netHelper() {
-        return KeelNetHelper.getInstance();
+    static CarinaNetHelper netHelper() {
+        return CarinaNetHelper.getInstance();
     }
 
-    static KeelReflectionHelper reflectionHelper() {
-        return KeelReflectionHelper.getInstance();
+    static CarinaReflectionHelper reflectionHelper() {
+        return CarinaReflectionHelper.getInstance();
     }
 
-    static KeelStringHelper stringHelper() {
-        return KeelStringHelper.getInstance();
+    static CarinaStringHelper stringHelper() {
+        return CarinaStringHelper.getInstance();
     }
 
-    static KeelCryptographyHelper cryptographyHelper() {
-        return KeelCryptographyHelper.getInstance();
+    static CarinaCryptographyHelper cryptographyHelper() {
+        return CarinaCryptographyHelper.getInstance();
     }
 
-    static KeelDigestHelper digestHelper() {
-        return KeelDigestHelper.getInstance();
+    static CarinaDigestHelper digestHelper() {
+        return CarinaDigestHelper.getInstance();
     }
 
     /**
      * @since 2.9.3
      */
-    static KeelRuntimeHelper runtimeHelper() {
-        return KeelRuntimeHelper.getInstance();
+    static CarinaRuntimeHelper runtimeHelper() {
+        return CarinaRuntimeHelper.getInstance();
     }
 
     /**
      * @since 2.9.4
      */
-    static KeelAuthenticationHelper authenticationHelper() {
-        return KeelAuthenticationHelper.getInstance();
+    static CarinaAuthenticationHelper authenticationHelper() {
+        return CarinaAuthenticationHelper.getInstance();
     }
 
 }

@@ -1,4 +1,4 @@
-package io.github.sinri.keel.helper.encryption.base32;
+package io.github.sinri.carina.helper.encryption.base32;
 
 public class Base32 {
     /* lookup table used to encode() groups of 5 bits of data */

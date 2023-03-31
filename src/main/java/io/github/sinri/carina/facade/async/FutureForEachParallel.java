@@ -1,4 +1,4 @@
-package io.github.sinri.keel.facade.async;
+package io.github.sinri.carina.facade.async;
 
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;

@@ -1,16 +1,16 @@
-package io.github.sinri.keel.logger.event;
+package io.github.sinri.carina.logger.event;
 
-import io.github.sinri.keel.logger.KeelLogLevel;
+import io.github.sinri.carina.logger.CarinaLogLevel;
 import io.vertx.core.json.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
-public class KeelEventLogImpl implements KeelEventLog {
+public class CarinaEventLogImpl implements CarinaEventLog {
     private JsonObject jsonObject;
     private long timestamp;
     private String topic;
-    private KeelLogLevel level;
+    private CarinaLogLevel level;
 
-    public KeelEventLogImpl(KeelLogLevel level, String topic) {
+    public CarinaEventLogImpl(CarinaLogLevel level, String topic) {
         this.jsonObject = new JsonObject();
         this.timestamp(System.currentTimeMillis());
         this.level(level);
@@ -25,18 +25,18 @@ public class KeelEventLogImpl implements KeelEventLog {
 
     @NotNull
     @Override
-    public KeelEventLog reloadDataFromJsonObject(JsonObject jsonObject) {
+    public CarinaEventLog reloadDataFromJsonObject(JsonObject jsonObject) {
         this.jsonObject = jsonObject;
         return this;
     }
 
     @Override
     @Deprecated
-    public KeelEventLog context(String key, Object value) {
-        JsonObject context = this.jsonObject.getJsonObject(KeelEventLog.RESERVED_KEY_CONTEXT);
+    public CarinaEventLog context(String key, Object value) {
+        JsonObject context = this.jsonObject.getJsonObject(CarinaEventLog.RESERVED_KEY_CONTEXT);
         if (context == null) {
             context = new JsonObject();
-            this.jsonObject.put(KeelEventLog.RESERVED_KEY_CONTEXT, context);
+            this.jsonObject.put(CarinaEventLog.RESERVED_KEY_CONTEXT, context);
         }
         context.put(key, value);
         return this;
@@ -45,11 +45,11 @@ public class KeelEventLogImpl implements KeelEventLog {
     @Override
     @Deprecated
     public Object context(String key) {
-        return this.readValue(KeelEventLog.RESERVED_KEY_CONTEXT, key);
+        return this.readValue(CarinaEventLog.RESERVED_KEY_CONTEXT, key);
     }
 
     @Override
-    public KeelEventLog put(String key, Object value) {
+    public CarinaEventLog put(String key, Object value) {
         this.jsonObject.put(key, value);
         return this;
     }
@@ -60,7 +60,7 @@ public class KeelEventLogImpl implements KeelEventLog {
     }
 
     @Override
-    public KeelEventLog timestamp(long timestamp) {
+    public CarinaEventLog timestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -71,20 +71,20 @@ public class KeelEventLogImpl implements KeelEventLog {
     }
 
     @Override
-    public KeelEventLog level(KeelLogLevel level) {
+    public CarinaEventLog level(CarinaLogLevel level) {
         this.level = level;
         return this;
         //return put(RESERVED_KEY_LEVEL, level.name());
     }
 
     @Override
-    public KeelLogLevel level() {
+    public CarinaLogLevel level() {
         return level;
         //return KeelLogLevel.valueOf(readString(RESERVED_KEY_LEVEL));
     }
 
     @Override
-    public KeelEventLog topic(String topic) {
+    public CarinaEventLog topic(String topic) {
         this.topic = topic;
         return this;
     }
@@ -95,7 +95,7 @@ public class KeelEventLogImpl implements KeelEventLog {
     }
 
     @Override
-    public KeelEventLog message(String msg) {
+    public CarinaEventLog message(String msg) {
         return put(RESERVED_KEY_EVENT_MSG, msg);
     }
 

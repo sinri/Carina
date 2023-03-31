@@ -1,4 +1,4 @@
-package io.github.sinri.keel.core.json;
+package io.github.sinri.carina.core.json;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;

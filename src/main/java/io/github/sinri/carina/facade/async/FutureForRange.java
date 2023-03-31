@@ -1,4 +1,4 @@
-package io.github.sinri.keel.facade.async;
+package io.github.sinri.carina.facade.async;
 
 import io.vertx.core.Future;
 
@@ -39,7 +39,7 @@ public class FutureForRange {
     private Future<Void> run(Function<Integer, Future<Void>> handleFunction) {
         AtomicInteger indexRef = new AtomicInteger(options.getStart());
 
-        return KeelAsyncKit.repeatedlyCall(routineResult -> {
+        return CarinaAsyncKit.repeatedlyCall(routineResult -> {
             if (indexRef.get() < options.getEnd()) {
                 return handleFunction.apply(indexRef.get())
                         .compose(v -> {

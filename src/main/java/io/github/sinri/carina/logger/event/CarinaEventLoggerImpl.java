@@ -1,26 +1,26 @@
-package io.github.sinri.keel.logger.event;
+package io.github.sinri.carina.logger.event;
 
 import io.vertx.core.Handler;
 
 import java.util.function.Supplier;
 
-public class KeelEventLoggerImpl implements KeelEventLogger {
-    private final Supplier<KeelEventLogCenter> eventLogCenterSupplier;
+public class CarinaEventLoggerImpl implements CarinaEventLogger {
+    private final Supplier<CarinaEventLogCenter> eventLogCenterSupplier;
     private final String presetTopic;
 
-    private Handler<KeelEventLog> presetEventLogEditor = null;
+    private Handler<CarinaEventLog> presetEventLogEditor = null;
 
-    public KeelEventLoggerImpl(
+    public CarinaEventLoggerImpl(
             String presetTopic,
-            Supplier<KeelEventLogCenter> eventLogCenterSupplier
+            Supplier<CarinaEventLogCenter> eventLogCenterSupplier
     ) {
         this(presetTopic, eventLogCenterSupplier, null);
     }
 
-    public KeelEventLoggerImpl(
+    public CarinaEventLoggerImpl(
             String presetTopic,
-            Supplier<KeelEventLogCenter> eventLogCenterSupplier,
-            Handler<KeelEventLog> presetEventLogEditor
+            Supplier<CarinaEventLogCenter> eventLogCenterSupplier,
+            Handler<CarinaEventLog> presetEventLogEditor
     ) {
         this.presetTopic = presetTopic;
         this.eventLogCenterSupplier = eventLogCenterSupplier;
@@ -28,7 +28,7 @@ public class KeelEventLoggerImpl implements KeelEventLogger {
     }
 
     @Override
-    public Supplier<KeelEventLogCenter> getEventLogCenterSupplier() {
+    public Supplier<CarinaEventLogCenter> getEventLogCenterSupplier() {
         return eventLogCenterSupplier;
     }
 
@@ -38,12 +38,12 @@ public class KeelEventLoggerImpl implements KeelEventLogger {
     }
 
     @Override
-    public Handler<KeelEventLog> getPresetEventLogEditor() {
+    public Handler<CarinaEventLog> getPresetEventLogEditor() {
         return presetEventLogEditor;
     }
 
     @Override
-    public KeelEventLogger setPresetEventLogEditor(Handler<KeelEventLog> editor) {
+    public CarinaEventLogger setPresetEventLogEditor(Handler<CarinaEventLog> editor) {
         this.presetEventLogEditor = editor;
         return this;
     }

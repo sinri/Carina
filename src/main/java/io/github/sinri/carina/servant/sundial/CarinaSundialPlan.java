@@ -1,16 +1,16 @@
-package io.github.sinri.keel.servant.sundial;
+package io.github.sinri.carina.servant.sundial;
 
-import io.github.sinri.keel.core.KeelCronExpression;
+import io.github.sinri.carina.core.CronExpression;
 
 import java.util.Calendar;
 
 /**
  * @since 3.0.0
  */
-public interface KeelSundialPlan {
+public interface CarinaSundialPlan {
     String key();
 
-    KeelCronExpression cronExpression();
+    CronExpression cronExpression();
 
     void execute(Calendar now);
 }

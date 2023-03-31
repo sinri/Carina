@@ -1,1 +1,1 @@
-package io.github.sinri.keel.helper.authenticator.googleauth;
+package io.github.sinri.carina.helper.authenticator.googleauth;

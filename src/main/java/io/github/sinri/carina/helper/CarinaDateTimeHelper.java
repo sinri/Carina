@@ -1,4 +1,4 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -10,14 +10,14 @@ import java.util.Locale;
 /**
  * @since 2.6
  */
-public class KeelDateTimeHelper {
-    private static final KeelDateTimeHelper instance = new KeelDateTimeHelper();
+public class CarinaDateTimeHelper {
+    private static final CarinaDateTimeHelper instance = new CarinaDateTimeHelper();
 
-    private KeelDateTimeHelper() {
+    private CarinaDateTimeHelper() {
 
     }
 
-    static KeelDateTimeHelper getInstance() {
+    static CarinaDateTimeHelper getInstance() {
         return instance;
     }
 
@@ -87,7 +87,7 @@ public class KeelDateTimeHelper {
      * @since 3.0.1
      */
     protected String makeStandardWidthField(int x, int w) {
-        StringBuilder s = new StringBuilder("" + x);
+        StringBuilder s = new StringBuilder(String.valueOf(x));
         if (s.length() < w) {
             for (int i = 0; i < w - s.length(); i++) {
                 s.insert(0, "0");

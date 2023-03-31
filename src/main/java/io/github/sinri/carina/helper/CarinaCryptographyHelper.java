@@ -1,22 +1,22 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
-import io.github.sinri.keel.helper.encryption.aes.KeelAes;
+import io.github.sinri.carina.helper.encryption.aes.CarinaAes;
 
 /**
  * @since 2.8
  */
-public class KeelCryptographyHelper {
-    private static final KeelCryptographyHelper instance = new KeelCryptographyHelper();
+public class CarinaCryptographyHelper {
+    private static final CarinaCryptographyHelper instance = new CarinaCryptographyHelper();
 
-    private KeelCryptographyHelper() {
+    private CarinaCryptographyHelper() {
 
     }
 
-    static KeelCryptographyHelper getInstance() {
+    static CarinaCryptographyHelper getInstance() {
         return instance;
     }
 
-    public KeelAes aes(KeelAes.SupportedCipherAlgorithm cipherAlgorithm, String key) {
-        return KeelAes.create(cipherAlgorithm, key);
+    public CarinaAes aes(CarinaAes.SupportedCipherAlgorithm cipherAlgorithm, String key) {
+        return CarinaAes.create(cipherAlgorithm, key);
     }
 }

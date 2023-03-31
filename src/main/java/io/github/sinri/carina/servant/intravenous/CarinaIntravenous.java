@@ -1,7 +1,7 @@
-package io.github.sinri.keel.servant.intravenous;
+package io.github.sinri.carina.servant.intravenous;
 
-import io.github.sinri.keel.facade.async.KeelAsyncKit;
-import io.github.sinri.keel.verticles.KeelVerticleBase;
+import io.github.sinri.carina.facade.async.CarinaAsyncKit;
+import io.github.sinri.carina.verticles.CarinaVerticleBase;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -16,19 +16,19 @@ import java.util.function.Function;
  * @param <T>
  * @since 3.0.0
  */
-public class KeelIntravenous<T> extends KeelVerticleBase {
+public class CarinaIntravenous<T> extends CarinaVerticleBase {
     private final Queue<T> queue;
     private final AtomicReference<Promise<Void>> interruptRef;
     private final Function<List<T>, Future<Void>> processor;
 
-    public KeelIntravenous(Function<List<T>, Future<Void>> processor) {
+    public CarinaIntravenous(Function<List<T>, Future<Void>> processor) {
         this.queue = new ConcurrentLinkedQueue<>();
         this.interruptRef = new AtomicReference<>();
         this.processor = processor;
     }
 
     private int getConfiguredBatchSize() {
-        var x = config().getInteger("batch_size", 1);
+        Integer x = config().getInteger("batch_size", 1);
         if (x < 1) x = 1;
         return x;
     }
@@ -48,11 +48,11 @@ public class KeelIntravenous<T> extends KeelVerticleBase {
     @Override
     public void start() throws Exception {
         int configuredBatchSize = getConfiguredBatchSize();
-        KeelAsyncKit.endless(promise -> {
+        CarinaAsyncKit.endless(promise -> {
             this.interruptRef.set(null);
             //System.out.println("ENDLESS "+System.currentTimeMillis());
 
-            KeelAsyncKit.repeatedlyCall(routineResult -> {
+            CarinaAsyncKit.repeatedlyCall(routineResult -> {
                         List<T> buffer = new ArrayList<>();
                         while (true) {
                             T t = queue.poll();
@@ -84,7 +84,7 @@ public class KeelIntravenous<T> extends KeelVerticleBase {
                     .andThen(ar -> {
                         this.interruptRef.set(Promise.promise());
 
-                        KeelAsyncKit.sleep(60_000L, getCurrentInterrupt())
+                        CarinaAsyncKit.sleep(60_000L, getCurrentInterrupt())
                                 .andThen(slept -> {
                                     promise.complete();
                                 });

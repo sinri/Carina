@@ -1,1 +1,1 @@
-package io.github.sinri.keel.helper.authenticator;
+package io.github.sinri.carina.helper.authenticator;

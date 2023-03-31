@@ -3,49 +3,22 @@ package io.github.sinri.carina.helper;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
  * @since 2.6
  */
-public class KeelJsonHelper {
-    private static final KeelJsonHelper instance = new KeelJsonHelper();
+public class CarinaJsonHelper {
+    private static final CarinaJsonHelper instance = new CarinaJsonHelper();
 
-    private KeelJsonHelper() {
+    private CarinaJsonHelper() {
 
     }
 
-    static KeelJsonHelper getInstance() {
+    static CarinaJsonHelper getInstance() {
         return instance;
-    }
-
-    public static void main(String[] args) {
-        KeelJsonHelper keelJsonHelper = new KeelJsonHelper();
-        var x1 = keelJsonHelper.renderJsonToStringBlock("x1", new JsonObject()
-                .put("a", "A")
-                .put("b", new JsonObject()
-                        .put("c", "d")
-                        .put("e", new JsonArray()
-                                .add("f")
-                                .add("g")
-                                .add(new JsonObject()
-                                        .put("h", "i")
-                                        .put("j", "k")
-                                )
-                                .add(new JsonArray()
-                                        .add("l")
-                                        .add("m")))
-                )
-                .put("n", new JsonArray()
-                        .add("o")
-                        .add(null))
-        );
-        System.out.println(x1);
     }
 
     public JsonObject writeIntoJsonObject(JsonObject jsonObject, String key, Object value) {
@@ -56,7 +29,7 @@ public class KeelJsonHelper {
     public JsonArray writeIntoJsonArray(JsonArray jsonArray, int index, Object value) {
         if (index >= 0) {
             if (index >= jsonArray.size()) {
-                for (var i = jsonArray.size(); i <= index; i++) {
+                for (int i = jsonArray.size(); i <= index; i++) {
                     jsonArray.add(null);
                 }
             }
@@ -166,7 +139,7 @@ public class KeelJsonHelper {
         if (keychain == null || keychain.isEmpty()) {
             throw new RuntimeException();
         }
-        var key = keychain.get(0);
+        Object key = keychain.get(0);
         Object x = readFromJsonObject(jsonObject, String.valueOf(key));
         if (keychain.size() == 1) {
             return x;
@@ -184,7 +157,7 @@ public class KeelJsonHelper {
         if (keychain == null || keychain.isEmpty()) {
             throw new RuntimeException();
         }
-        var key = keychain.get(0);
+        Object key = keychain.get(0);
         if (key instanceof Long || key instanceof Integer || key instanceof Short) {
             Object x = readFromJsonArray(jsonArray, ((Number) key).intValue());
             if (keychain.size() == 1) {
@@ -249,7 +222,7 @@ public class KeelJsonHelper {
      * @since 3.0.0
      */
     public JsonObject renderThrowableChain(Throwable throwable) {
-        return renderThrowableChain(throwable, Set.of());
+        return renderThrowableChain(throwable, new HashSet<>());
     }
 
     /**
@@ -292,7 +265,7 @@ public class KeelJsonHelper {
             for (StackTraceElement stackTranceItem : stackTrace) {
                 String className = stackTranceItem.getClassName();
                 String matchedClassPackage = null;
-                for (var cp : ignorableStackPackageSet) {
+                for (String cp : ignorableStackPackageSet) {
                     if (className.startsWith(cp)) {
                         matchedClassPackage = cp;
                         break;
@@ -436,10 +409,14 @@ public class KeelJsonHelper {
     private String renderJsonItem(String key, Object object, int indentation, String typeMark) {
         StringBuilder subBlock = new StringBuilder();
         if (indentation > 1) {
-            subBlock.append(" ".repeat(indentation - 2));
+            for (int i = 0; i < indentation - 2; i++) {
+                subBlock.append(" ");
+            }
             subBlock.append(typeMark).append(" ");
         } else {
-            subBlock.append(" ".repeat(Math.max(0, indentation)));
+            for (int i = 0; i < Math.max(0, indentation); i++) {
+                subBlock.append(" ");
+            }
         }
 
         if (key != null) {
@@ -456,7 +433,7 @@ public class KeelJsonHelper {
             subBlock.append("\n");
             for (int i = 0; i < ((JsonArray) object).size(); i++) {
                 subBlock.append(
-                        renderJsonItem(i + "", ((JsonArray) object).getValue(i), indentation + 2, "-")
+                        renderJsonItem(String.valueOf(i), ((JsonArray) object).getValue(i), indentation + 2, "-")
                 );
             }
         } else {

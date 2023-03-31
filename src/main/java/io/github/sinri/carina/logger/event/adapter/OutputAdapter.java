@@ -1,8 +1,8 @@
-package io.github.sinri.keel.logger.event.adapter;
+package io.github.sinri.carina.logger.event.adapter;
 
-import io.github.sinri.keel.facade.async.KeelAsyncKit;
-import io.github.sinri.keel.helper.KeelHelpers;
-import io.github.sinri.keel.logger.event.KeelEventLog;
+import io.github.sinri.carina.facade.async.CarinaAsyncKit;
+import io.github.sinri.carina.helper.CarinaHelpers;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -15,12 +15,12 @@ import java.util.function.Function;
  *
  * @since 3.0.0
  */
-public class OutputAdapter implements KeelEventLoggerAdapter {
+public class OutputAdapter implements CarinaEventLoggerAdapter {
 
     private static final OutputAdapter defaultInstance = new OutputAdapter(null);
-    private final Function<KeelEventLog, Future<String>> converter;
+    private final Function<CarinaEventLog, Future<String>> converter;
 
-    private OutputAdapter(Function<KeelEventLog, Future<String>> converter) {
+    private OutputAdapter(Function<CarinaEventLog, Future<String>> converter) {
         this.converter = converter;
     }
 
@@ -28,7 +28,7 @@ public class OutputAdapter implements KeelEventLoggerAdapter {
         return defaultInstance;
     }
 
-    public static OutputAdapter getInstance(Function<KeelEventLog, Future<String>> converter) {
+    public static OutputAdapter getInstance(Function<CarinaEventLog, Future<String>> converter) {
         return new OutputAdapter(converter);
     }
 
@@ -38,8 +38,8 @@ public class OutputAdapter implements KeelEventLoggerAdapter {
     }
 
     @Override
-    public Future<Void> dealWithLogs(List<KeelEventLog> buffer) {
-        return KeelAsyncKit.iterativelyCall(buffer, eventLog -> {
+    public Future<Void> dealWithLogs(List<CarinaEventLog> buffer) {
+        return CarinaAsyncKit.iterativelyCall(buffer, eventLog -> {
             try {
                 if (converter == null) {
                     System.out.println(eventLog.toString());
@@ -61,6 +61,6 @@ public class OutputAdapter implements KeelEventLoggerAdapter {
 
     @Override
     public Object processThrowable(Throwable throwable) {
-        return KeelHelpers.stringHelper().renderThrowableChain(throwable);
+        return CarinaHelpers.stringHelper().renderThrowableChain(throwable);
     }
 }

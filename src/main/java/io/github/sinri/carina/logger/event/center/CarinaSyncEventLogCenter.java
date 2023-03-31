@@ -1,22 +1,25 @@
-package io.github.sinri.keel.logger.event.center;
+package io.github.sinri.carina.logger.event.center;
 
-import io.github.sinri.keel.logger.event.KeelEventLog;
-import io.github.sinri.keel.logger.event.KeelEventLogCenter;
-import io.github.sinri.keel.logger.event.adapter.KeelEventLoggerAdapter;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
+import io.github.sinri.carina.logger.event.CarinaEventLogCenter;
+import io.github.sinri.carina.logger.event.adapter.CarinaEventLoggerAdapter;
 import io.vertx.core.Future;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class KeelSyncEventLogCenter implements KeelEventLogCenter {
-    private final KeelEventLoggerAdapter adapter;
+public class CarinaSyncEventLogCenter implements CarinaEventLogCenter {
+    private final CarinaEventLoggerAdapter adapter;
 
-    public KeelSyncEventLogCenter(KeelEventLoggerAdapter adapter) {
+    public CarinaSyncEventLogCenter(CarinaEventLoggerAdapter adapter) {
         this.adapter = adapter;
     }
 
     @Override
-    public void log(KeelEventLog eventLog) {
-        adapter.dealWithLogs(List.of(eventLog));
+    public void log(CarinaEventLog eventLog) {
+        List<CarinaEventLog> arrayList = new ArrayList<>();
+        arrayList.add(eventLog);
+        adapter.dealWithLogs(arrayList);
     }
 
     @Override

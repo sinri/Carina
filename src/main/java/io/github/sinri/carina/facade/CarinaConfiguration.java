@@ -1,7 +1,7 @@
-package io.github.sinri.keel.facade;
+package io.github.sinri.carina.facade;
 
-import io.github.sinri.keel.core.json.JsonifiableEntity;
-import io.github.sinri.keel.helper.KeelHelpers;
+import io.github.sinri.carina.core.json.JsonifiableEntity;
+import io.github.sinri.carina.helper.CarinaHelpers;
 import io.vertx.core.json.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,26 +9,24 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
  * @since 3.0.0
  */
-public class KeelConfiguration implements JsonifiableEntity<KeelConfiguration> {
+public class CarinaConfiguration implements JsonifiableEntity<CarinaConfiguration> {
 
     private JsonObject data = new JsonObject();
 
-    public KeelConfiguration() {
+    public CarinaConfiguration() {
     }
 
-    public KeelConfiguration(@Nonnull JsonObject jsonObject) {
+    public CarinaConfiguration(@Nonnull JsonObject jsonObject) {
         this.data = jsonObject;
     }
 
-    public KeelConfiguration(@Nonnull Properties properties) {
-        this.data = KeelConfiguration.transformPropertiesToJsonObject(properties);
+    public CarinaConfiguration(@Nonnull Properties properties) {
+        this.data = CarinaConfiguration.transformPropertiesToJsonObject(properties);
     }
 
     static @Nonnull JsonObject transformPropertiesToJsonObject(Properties properties) {
@@ -40,59 +38,52 @@ public class KeelConfiguration implements JsonifiableEntity<KeelConfiguration> {
         for (var plainKey : plainKeySet) {
             String[] components = plainKey.split("\\.");
             List<Object> keychain = Arrays.asList(components);
-            KeelHelpers.jsonHelper()
+            CarinaHelpers.jsonHelper()
                     .writeIntoJsonObject(jsonObject, keychain, properties.getProperty(plainKey));
         }
         return jsonObject;
     }
 
-    static KeelConfiguration createFromPropertiesFile(String propertiesFileName) {
-        KeelConfiguration p = new KeelConfiguration();
+    static CarinaConfiguration createFromPropertiesFile(String propertiesFileName) {
+        CarinaConfiguration p = new CarinaConfiguration();
         p.loadPropertiesFile(propertiesFileName);
         return p;
     }
 
-    static KeelConfiguration createFromProperties(Properties properties) {
-        KeelConfiguration p = new KeelConfiguration();
+    static CarinaConfiguration createFromProperties(Properties properties) {
+        CarinaConfiguration p = new CarinaConfiguration();
         p.putAll(properties);
         return p;
     }
 
-    static KeelConfiguration createFromJsonObject(JsonObject jsonObject) {
-        KeelConfiguration p = new KeelConfiguration();
+    static CarinaConfiguration createFromJsonObject(JsonObject jsonObject) {
+        CarinaConfiguration p = new CarinaConfiguration();
         p.putAll(jsonObject);
         return p;
     }
 
-    public KeelConfiguration putAll(KeelConfiguration keelConfiguration) {
-        return putAll(keelConfiguration.toJsonObject());
+    public CarinaConfiguration putAll(CarinaConfiguration CarinaConfiguration) {
+        return putAll(CarinaConfiguration.toJsonObject());
     }
 
-    public KeelConfiguration putAll(Properties properties) {
-        return putAll(KeelConfiguration.transformPropertiesToJsonObject(properties));
+    public CarinaConfiguration putAll(Properties properties) {
+        return putAll(CarinaConfiguration.transformPropertiesToJsonObject(properties));
     }
 
-    public KeelConfiguration putAll(JsonObject jsonObject) {
+    public CarinaConfiguration putAll(JsonObject jsonObject) {
         data.mergeIn(jsonObject);
         return this;
     }
 
-    /**
-     * @since 3.0.1
-     */
-    public KeelConfiguration loadPropertiesFile(String propertiesFileName) {
-        return loadPropertiesFile(propertiesFileName, StandardCharsets.UTF_8);
-    }
-
-    public KeelConfiguration loadPropertiesFile(String propertiesFileName, Charset charset) {
+    public CarinaConfiguration loadPropertiesFile(String propertiesFileName) {
         Properties properties = new Properties();
         try {
             // here, the file named as `propertiesFileName` should be put along with JAR
-            properties.load(new FileReader(propertiesFileName, charset));
+            properties.load(new FileReader(propertiesFileName));
         } catch (IOException e) {
             System.err.println("Cannot find the file config.properties. Use the embedded one.");
             try {
-                properties.load(KeelConfiguration.class.getClassLoader().getResourceAsStream(propertiesFileName));
+                properties.load(CarinaConfiguration.class.getClassLoader().getResourceAsStream(propertiesFileName));
             } catch (IOException ex) {
                 throw new RuntimeException("Cannot find the embedded file config.properties.", ex);
             }
@@ -101,19 +92,13 @@ public class KeelConfiguration implements JsonifiableEntity<KeelConfiguration> {
         return putAll(properties);
     }
 
-    public KeelConfiguration extract(String... keychain) {
-        JsonObject jsonObject = Objects.requireNonNullElse(readJsonObject(keychain), new JsonObject());
-        return new KeelConfiguration(jsonObject);
-    }
-
-    /**
-     * @param dotJoinedKeyChain raw keychain in properties file, such as `a.b.c`
-     * @since 3.0.1
-     */
-    @Deprecated(since = "3.0.1")
-    public String fastRead(@NotNull String dotJoinedKeyChain) {
-        String[] split = dotJoinedKeyChain.split("\\.");
-        return readString(split);
+    public CarinaConfiguration extract(String... keychain) {
+        JsonObject entries = readJsonObject(keychain);
+        if (entries == null) {
+            entries = new JsonObject();
+        }
+        JsonObject jsonObject = entries;
+        return new CarinaConfiguration(jsonObject);
     }
 
     public @Nullable Long readAsLong(String... keychain) {
@@ -140,7 +125,7 @@ public class KeelConfiguration implements JsonifiableEntity<KeelConfiguration> {
     }
 
     @Override
-    public @NotNull KeelConfiguration reloadDataFromJsonObject(JsonObject data) {
+    public @NotNull CarinaConfiguration reloadDataFromJsonObject(JsonObject data) {
         this.data = data;
         return this;
     }

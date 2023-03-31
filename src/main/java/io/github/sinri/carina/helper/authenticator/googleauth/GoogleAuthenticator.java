@@ -28,7 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.github.sinri.keel.helper.authenticator.googleauth;
+package io.github.sinri.carina.helper.authenticator.googleauth;
 
 //import org.apache.commons.codec.binary.Base32;
 //import org.apache.commons.codec.binary.Base64;

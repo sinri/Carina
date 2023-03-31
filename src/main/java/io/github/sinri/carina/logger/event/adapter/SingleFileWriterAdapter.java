@@ -1,7 +1,7 @@
-package io.github.sinri.keel.logger.event.adapter;
+package io.github.sinri.carina.logger.event.adapter;
 
-import io.github.sinri.keel.helper.KeelHelpers;
-import io.github.sinri.keel.logger.event.KeelEventLog;
+import io.github.sinri.carina.helper.CarinaHelpers;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class SingleFileWriterAdapter implements KeelEventLoggerAdapter {
+public class SingleFileWriterAdapter implements CarinaEventLoggerAdapter {
     private FileWriter fileWriter;
 
     public SingleFileWriterAdapter(String filepath) {
@@ -33,7 +33,7 @@ public class SingleFileWriterAdapter implements KeelEventLoggerAdapter {
     }
 
     @Override
-    public Future<Void> dealWithLogs(List<KeelEventLog> buffer) {
+    public Future<Void> dealWithLogs(List<CarinaEventLog> buffer) {
         if (fileWriter != null) {
             buffer.forEach(eventLog -> {
                 try {
@@ -49,7 +49,7 @@ public class SingleFileWriterAdapter implements KeelEventLoggerAdapter {
 
     @Override
     public Object processThrowable(Throwable throwable) {
-        return KeelHelpers.stringHelper().renderThrowableChain(throwable);
+        return CarinaHelpers.stringHelper().renderThrowableChain(throwable);
     }
 
 }

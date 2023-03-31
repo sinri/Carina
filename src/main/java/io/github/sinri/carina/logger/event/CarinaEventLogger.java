@@ -1,7 +1,7 @@
-package io.github.sinri.keel.logger.event;
+package io.github.sinri.carina.logger.event;
 
-import io.github.sinri.keel.logger.KeelLogLevel;
-import io.github.sinri.keel.logger.event.logger.KeelSilentEventLogger;
+import io.github.sinri.carina.logger.CarinaLogLevel;
+import io.github.sinri.carina.logger.event.logger.CarinaSilentEventLogger;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -13,15 +13,15 @@ import java.util.function.Supplier;
 /**
  * @since 2.9.4
  */
-public interface KeelEventLogger {
-    static KeelEventLogger silentLogger() {
-        return KeelSilentEventLogger.getInstance();
+public interface CarinaEventLogger {
+    static CarinaEventLogger silentLogger() {
+        return CarinaSilentEventLogger.getInstance();
     }
 
     /**
      * Note: it is better to keep log center stable.
      */
-    Supplier<KeelEventLogCenter> getEventLogCenterSupplier();
+    Supplier<CarinaEventLogCenter> getEventLogCenterSupplier();
 
     /**
      * Note: if `getEventLogCenterSupplier` generate instances dynamically, the default implement would not affect.
@@ -32,20 +32,20 @@ public interface KeelEventLogger {
 
     String getPresetTopic();
 
-    Handler<KeelEventLog> getPresetEventLogEditor();
+    Handler<CarinaEventLog> getPresetEventLogEditor();
 
-    KeelEventLogger setPresetEventLogEditor(Handler<KeelEventLog> editor);
+    CarinaEventLogger setPresetEventLogEditor(Handler<CarinaEventLog> editor);
 
 
-    default void log(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void log(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         // done debugging
 //        System.out.println("KeelEventLogger::log("+eventLogHandler+") start");
 
-        KeelEventLog eventLog = KeelEventLog.create(KeelLogLevel.INFO, getPresetTopic());
+        CarinaEventLog eventLog = CarinaEventLog.create(CarinaLogLevel.INFO, getPresetTopic());
 
 //        System.out.println("KeelEventLogger::log("+eventLogHandler+") eventLog created");
 
-        Handler<KeelEventLog> presetEventLogEditor = getPresetEventLogEditor();
+        Handler<CarinaEventLog> presetEventLogEditor = getPresetEventLogEditor();
         if (presetEventLogEditor != null) {
 //            System.out.println("KeelEventLogger::log("+eventLogHandler+") presetEventLogEditor is not null");
             presetEventLogEditor.handle(eventLog);
@@ -62,20 +62,20 @@ public interface KeelEventLogger {
         getEventLogCenterSupplier().get().log(eventLog);
     }
 
-    default void debug(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void debug(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         log(eventLog -> {
-            eventLog.level(KeelLogLevel.DEBUG);
+            eventLog.level(CarinaLogLevel.DEBUG);
             eventLog.topic(getPresetTopic());
             eventLogHandler.handle(eventLog);
         });
     }
 
-    default void info(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void info(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         // done debugging
 //        System.out.println("KeelEventLogger::info("+eventLogHandler+") start");
         log(eventLog -> {
 //            System.out.println("KeelEventLogger::info("+eventLogHandler+") inside handler start");
-            eventLog.level(KeelLogLevel.INFO);
+            eventLog.level(CarinaLogLevel.INFO);
             eventLog.topic(getPresetTopic());
 //            System.out.println("KeelEventLogger::info("+eventLogHandler+") inside handler go");
             eventLogHandler.handle(eventLog);
@@ -84,33 +84,33 @@ public interface KeelEventLogger {
 //        System.out.println("KeelEventLogger::info("+eventLogHandler+") end");
     }
 
-    default void notice(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void notice(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         log(eventLog -> {
-            eventLog.level(KeelLogLevel.NOTICE);
+            eventLog.level(CarinaLogLevel.NOTICE);
             eventLog.topic(getPresetTopic());
             eventLogHandler.handle(eventLog);
         });
     }
 
-    default void warning(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void warning(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         log(eventLog -> {
-            eventLog.level(KeelLogLevel.WARNING);
+            eventLog.level(CarinaLogLevel.WARNING);
             eventLog.topic(getPresetTopic());
             eventLogHandler.handle(eventLog);
         });
     }
 
-    default void error(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void error(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         log(eventLog -> {
-            eventLog.level(KeelLogLevel.ERROR);
+            eventLog.level(CarinaLogLevel.ERROR);
             eventLog.topic(getPresetTopic());
             eventLogHandler.handle(eventLog);
         });
     }
 
-    default void fatal(@Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void fatal(@Nonnull Handler<CarinaEventLog> eventLogHandler) {
         log(eventLog -> {
-            eventLog.level(KeelLogLevel.FATAL);
+            eventLog.level(CarinaLogLevel.FATAL);
             eventLog.topic(getPresetTopic());
             eventLogHandler.handle(eventLog);
         });
@@ -167,9 +167,9 @@ public interface KeelEventLogger {
         });
     }
 
-    default void exception(@Nonnull Throwable throwable, @Nonnull Handler<KeelEventLog> eventLogHandler) {
+    default void exception(@Nonnull Throwable throwable, @Nonnull Handler<CarinaEventLog> eventLogHandler) {
         error(eventLog -> {
-            eventLog.put(KeelEventLog.RESERVED_KEY_EVENT_EXCEPTION, this.processThrowable(throwable));
+            eventLog.put(CarinaEventLog.RESERVED_KEY_EVENT_EXCEPTION, this.processThrowable(throwable));
             eventLogHandler.handle(eventLog);
         });
     }

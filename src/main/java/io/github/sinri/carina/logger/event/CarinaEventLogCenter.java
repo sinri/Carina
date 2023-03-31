@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.event;
+package io.github.sinri.carina.logger.event;
 
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -6,21 +6,21 @@ import io.vertx.core.Handler;
 /**
  * @since 2.9.4 实验性设计
  */
-public interface KeelEventLogCenter {
+public interface CarinaEventLogCenter {
 
-    void log(KeelEventLog eventLog);
+    void log(CarinaEventLog eventLog);
 
     Object processThrowable(Throwable throwable);
 
     Future<Void> gracefullyClose();
 
 
-    default KeelEventLogger createLogger(String presetTopic) {
+    default CarinaEventLogger createLogger(String presetTopic) {
         return createLogger(presetTopic, null);
     }
 
-    default KeelEventLogger createLogger(String presetTopic, Handler<KeelEventLog> editor) {
-        return new KeelEventLoggerImpl(presetTopic, () -> this, editor);
+    default CarinaEventLogger createLogger(String presetTopic, Handler<CarinaEventLog> editor) {
+        return new CarinaEventLoggerImpl(presetTopic, () -> this, editor);
     }
 
 }

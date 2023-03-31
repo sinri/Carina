@@ -8,14 +8,14 @@ import java.util.*;
 /**
  * @since 2.6
  */
-public class KeelStringHelper {
-    private static final KeelStringHelper instance = new KeelStringHelper();
+public class CarinaStringHelper {
+    private static final CarinaStringHelper instance = new CarinaStringHelper();
 
-    private KeelStringHelper() {
+    private CarinaStringHelper() {
 
     }
 
-    static KeelStringHelper getInstance() {
+    static CarinaStringHelper getInstance() {
         return instance;
     }
 
@@ -89,8 +89,8 @@ public class KeelStringHelper {
         }
         String[] parts = underScoreCase.toLowerCase().split("[\\s_]");
         List<String> camel = new ArrayList<>();
-        for (var part : parts) {
-            if (part != null && !part.isEmpty() && !part.isBlank()) {
+        for (String part : parts) {
+            if (part != null && !part.isEmpty()) {
                 camel.add(part.substring(0, 1).toUpperCase() + part.substring(1));
             }
         }
@@ -104,7 +104,7 @@ public class KeelStringHelper {
         if (camelCase == null) {
             return null;
         }
-        if (camelCase.isEmpty() || camelCase.isBlank()) {
+        if (camelCase.isEmpty()) {
             return "";
         }
         if (camelCase.length() == 1) {
@@ -142,7 +142,7 @@ public class KeelStringHelper {
             for (StackTraceElement stackTranceItem : stackTrace) {
                 String className = stackTranceItem.getClassName();
                 String matchedClassPackage = null;
-                for (var cp : ignorableStackPackageSet) {
+                for (String cp : ignorableStackPackageSet) {
                     if (className.startsWith(cp)) {
                         matchedClassPackage = cp;
                         break;
@@ -202,7 +202,7 @@ public class KeelStringHelper {
      * @since 2.9
      */
     public String buildStackChainText(StackTraceElement[] stackTrace) {
-        return buildStackChainText(stackTrace, Set.of());
+        return buildStackChainText(stackTrace, new HashSet<>());
     }
 
 
@@ -241,7 +241,7 @@ public class KeelStringHelper {
      * @since 2.9
      */
     public String renderThrowableChain(Throwable throwable) {
-        return renderThrowableChain(throwable, Set.of());
+        return renderThrowableChain(throwable, new HashSet<>());
     }
 
     /**

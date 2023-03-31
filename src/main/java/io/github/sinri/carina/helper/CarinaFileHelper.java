@@ -1,8 +1,10 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
-import io.github.sinri.keel.facade.Keel;
+import io.github.sinri.carina.facade.Carina;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
@@ -18,35 +20,39 @@ import java.util.jar.JarFile;
 /**
  * @since 2.6
  */
-public class KeelFileHelper {
-    private static final KeelFileHelper instance = new KeelFileHelper();
+public class CarinaFileHelper {
+    private static final CarinaFileHelper instance = new CarinaFileHelper();
 
-    private KeelFileHelper() {
+    private CarinaFileHelper() {
 
     }
 
-    static KeelFileHelper getInstance() {
+    static CarinaFileHelper getInstance() {
         return instance;
     }
 
     public byte[] readFileAsByteArray(String filePath, boolean seekInsideJarWhenNotFound) throws IOException {
         try {
-            return Files.readAllBytes(Path.of(filePath));
+            return Files.readAllBytes(new File(filePath).toPath());
         } catch (IOException e) {
             if (seekInsideJarWhenNotFound) {
-                InputStream resourceAsStream = KeelFileHelper.class.getClassLoader().getResourceAsStream(filePath);
-                if (resourceAsStream == null) {
-                    // not found resource
-                    throw new IOException("file also not in jar", e);
+                Buffer buffer = Buffer.buffer();
+                try (InputStream resourceAsStream = CarinaFileHelper.class.getClassLoader().getResourceAsStream(filePath)) {
+                    while (true) {
+                        int c = 0;
+                        if (resourceAsStream != null) {
+                            c = resourceAsStream.read();
+                        } else {
+                            throw new IOException("PATH NOT READABLE");
+                        }
+                        if (c >= 0) {
+                            buffer.appendByte((byte) c);
+                        } else {
+                            break;
+                        }
+                    }
+                    return buffer.getBytes();
                 }
-                return resourceAsStream.readAllBytes();
-
-//                URL resource = KeelOptions.class.getClassLoader().getResource(filePath);
-//                if (resource == null) {
-//                    throw new IOException("Embedded one is not found after not found in FS: " + filePath, e);
-//                }
-//                String file = resource.getFile();
-//                return Files.readAllBytes(Path.of(file));
             } else {
                 throw e;
             }
@@ -58,7 +64,7 @@ public class KeelFileHelper {
      * @return the URL of target file; if not there, null return.
      */
     public URL getUrlOfFileInJar(String filePath) {
-        return KeelFileHelper.class.getClassLoader().getResource(filePath);
+        return CarinaFileHelper.class.getClassLoader().getResource(filePath);
     }
 
     /**
@@ -71,7 +77,7 @@ public class KeelFileHelper {
         List<JarEntry> jarEntryList = new ArrayList<>();
         try {
             // should root ends with '/'?
-            URL url = KeelFileHelper.class.getClassLoader().getResource(root);
+            URL url = CarinaFileHelper.class.getClassLoader().getResource(root);
             if (url == null) {
                 throw new RuntimeException("Resource is not found");
             }
@@ -84,13 +90,13 @@ public class KeelFileHelper {
             JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();
             JarFile jarFile = jarCon.getJarFile();
             Enumeration<JarEntry> jarEntries = jarFile.entries();
-            var baseJarEntry = jarFile.getJarEntry(root);
-            var pathOfBaseJarEntry = Path.of(baseJarEntry.getName());
+            JarEntry baseJarEntry = jarFile.getJarEntry(root);
+            Path pathOfBaseJarEntry = new File(baseJarEntry.getName()).toPath(); // Path.of(baseJarEntry.getName());
 
             while (jarEntries.hasMoreElements()) {
                 JarEntry entry = jarEntries.nextElement();
 
-                Path entryPath = Path.of(entry.getName());
+                Path entryPath = new File(entry.getName()).toPath();
                 if (entryPath.getParent() == null) {
                     continue;
                 }
@@ -109,6 +115,6 @@ public class KeelFileHelper {
      * @since 3.0.0
      */
     public Future<String> crateTempFile(String prefix, String suffix) {
-        return Keel.getVertx().fileSystem().createTempFile(prefix, suffix);
+        return Carina.getVertx().fileSystem().createTempFile(prefix, suffix);
     }
 }

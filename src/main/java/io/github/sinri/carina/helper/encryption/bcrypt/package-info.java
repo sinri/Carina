@@ -1,1 +1,1 @@
-package io.github.sinri.keel.helper.encryption.bcrypt;
+package io.github.sinri.carina.helper.encryption.bcrypt;

@@ -1,20 +1,20 @@
-package io.github.sinri.keel.servant.queue;
+package io.github.sinri.carina.servant.queue;
 
-import io.github.sinri.keel.logger.event.KeelEventLogger;
-import io.github.sinri.keel.verticles.KeelVerticleBase;
+import io.github.sinri.carina.logger.event.CarinaEventLogger;
+import io.github.sinri.carina.verticles.CarinaVerticleBase;
 import io.vertx.core.Future;
 
 /**
  * @since 2.1
  */
-public abstract class KeelQueueTask extends KeelVerticleBase {
+public abstract class CarinaQueueTask extends CarinaVerticleBase {
 
     abstract public String getTaskReference();
 
     abstract public String getTaskCategory();
 
 
-    abstract protected KeelEventLogger prepareLogger();
+    abstract protected CarinaEventLogger prepareLogger();
 
 
     /**

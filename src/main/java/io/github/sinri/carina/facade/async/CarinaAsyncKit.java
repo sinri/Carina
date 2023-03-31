@@ -1,6 +1,6 @@
-package io.github.sinri.keel.facade.async;
+package io.github.sinri.carina.facade.async;
 
-import io.github.sinri.keel.facade.Keel;
+import io.github.sinri.carina.facade.Carina;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 /**
  * @since 3.0.0
  */
-public interface KeelAsyncKit {
+public interface CarinaAsyncKit {
     /**
      * @since 2.9.3 callFutureRepeat
      * @since 3.0.0 repeatedlyCall
@@ -75,7 +75,7 @@ public interface KeelAsyncKit {
     }
 
     static Future<Void> exclusivelyCall(String lockName, Supplier<Future<Void>> exclusiveSupplier) {
-        return Keel.getVertx().sharedData()
+        return Carina.getVertx().sharedData()
                 .getLock(lockName)
                 .compose(lock -> Future.succeededFuture()
                         .compose(v -> exclusiveSupplier.get())
@@ -90,7 +90,7 @@ public interface KeelAsyncKit {
         Promise<Void> promise = Promise.promise();
         promiseHandler.handle(promise);
         promise.future()
-                .andThen(ar -> Keel.getVertx()
+                .andThen(ar -> Carina.getVertx()
                         .setTimer(1L, timerID -> endless(promiseHandler)));
     }
 
@@ -99,7 +99,7 @@ public interface KeelAsyncKit {
      * @since 3.0.1
      */
     static void endless(Supplier<Future<Void>> supplier) {
-        KeelAsyncKit.repeatedlyCall(routineResult -> {
+        CarinaAsyncKit.repeatedlyCall(routineResult -> {
             return Future.succeededFuture()
                     .compose(v -> {
                         return supplier.get();
@@ -129,7 +129,7 @@ public interface KeelAsyncKit {
      * @since 3.0.1
      */
     static <R> Future<R> vertxizedRawFuture(java.util.concurrent.Future<R> rawFuture, long sleepTime) {
-        return KeelAsyncKit.repeatedlyCall(routineResult -> {
+        return CarinaAsyncKit.repeatedlyCall(routineResult -> {
                     if (rawFuture.isDone() || rawFuture.isCancelled()) {
                         routineResult.stop();
                     }
@@ -144,45 +144,4 @@ public interface KeelAsyncKit {
                 });
     }
 
-    @Deprecated
-    static <R> Future<R> waitForCompletableFuture(CompletableFuture<R> completableFuture, long gapTime) {
-        return KeelAsyncKit.repeatedlyCall(routineResult -> {
-                    if (completableFuture.isDone() || completableFuture.isCancelled() || completableFuture.isCompletedExceptionally()) {
-                        routineResult.stop();
-                    }
-                    return KeelAsyncKit.sleep(gapTime);
-                })
-                .compose(v -> {
-                    if (completableFuture.isDone()) {
-                        try {
-                            R r = completableFuture.get();
-                            return Future.succeededFuture(r);
-                        } catch (ExecutionException | InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        throw new RuntimeException("not done");
-                    }
-                });
-    }
-
-//    static void main(String[] args) {
-//        CompletableFuture<String> f = CompletableFuture.supplyAsync(new Supplier<String>() {
-//            @Override
-//            public String get() {
-//                throw new RuntimeException("888");
-//                //return "123";
-//            }
-//        });
-//        f
-//                .exceptionally(throwable -> {
-//                    System.err.println("exceptionally:" + throwable);
-//                    return "000";
-//                })
-//                .whenComplete((r, t) -> {
-//                    System.out.println("r: " + r);
-//                    System.err.println("t:" + t);
-//                })
-//        ;
-//    }
 }

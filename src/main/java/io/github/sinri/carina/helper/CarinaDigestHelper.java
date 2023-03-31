@@ -1,4 +1,4 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -15,15 +15,15 @@ import java.util.Base64;
  *
  * @since 2.8
  */
-public class KeelDigestHelper {
+public class CarinaDigestHelper {
 
-    private static final KeelDigestHelper instance = new KeelDigestHelper();
+    private static final CarinaDigestHelper instance = new CarinaDigestHelper();
 
-    private KeelDigestHelper() {
+    private CarinaDigestHelper() {
 
     }
 
-    static KeelDigestHelper getInstance() {
+    static CarinaDigestHelper getInstance() {
         return instance;
     }
 
@@ -38,7 +38,7 @@ public class KeelDigestHelper {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(raw.getBytes());
-            return KeelHelpers.binaryHelper().encodeHexWithLowerDigits(md.digest());
+            return CarinaHelpers.binaryHelper().encodeHexWithLowerDigits(md.digest());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +55,7 @@ public class KeelDigestHelper {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(raw.getBytes());
-            return KeelHelpers.binaryHelper().encodeHexWithUpperDigits(md.digest());
+            return CarinaHelpers.binaryHelper().encodeHexWithUpperDigits(md.digest());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +68,7 @@ public class KeelDigestHelper {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA");
             md.update(raw.getBytes());
-            return KeelHelpers.binaryHelper().encodeHexWithUpperDigits(md.digest());
+            return CarinaHelpers.binaryHelper().encodeHexWithUpperDigits(md.digest());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -81,7 +81,7 @@ public class KeelDigestHelper {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA");
             md.update(raw.getBytes());
-            return KeelHelpers.binaryHelper().encodeHexWithLowerDigits(md.digest());
+            return CarinaHelpers.binaryHelper().encodeHexWithLowerDigits(md.digest());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +130,7 @@ public class KeelDigestHelper {
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
-        return KeelHelpers.binaryHelper().encodeHexWithLowerDigits(bytes);
+        return CarinaHelpers.binaryHelper().encodeHexWithLowerDigits(bytes);
     }
 
     /**
@@ -143,16 +143,6 @@ public class KeelDigestHelper {
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
-        return KeelHelpers.binaryHelper().encodeHexWithUpperDigits(bytes);
-    }
-
-    @Deprecated(since = "2.9.4")
-    public String php_password_hash(String password) {
-        return KeelHelpers.authenticationHelper().php_password_hash(password);
-    }
-
-    @Deprecated(since = "2.9.4")
-    public boolean php_password_verify(String password, String hash) {
-        return KeelHelpers.authenticationHelper().php_password_verify(password, hash);
+        return CarinaHelpers.binaryHelper().encodeHexWithUpperDigits(bytes);
     }
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @since 2.8
  */
-public interface KeelAes {
+public interface CarinaAes {
     /**
      * 密钥算法
      */
@@ -19,18 +19,18 @@ public interface KeelAes {
      */
     String ENCODING = "utf-8";
 
-    static KeelAes create(SupportedCipherAlgorithm cipherAlgorithm, String key) {
+    static CarinaAes create(SupportedCipherAlgorithm cipherAlgorithm, String key) {
         Objects.requireNonNull(cipherAlgorithm);
         Objects.requireNonNull(key);
         switch (cipherAlgorithm) {
             case AesCbcPkcs7Padding:
-                return new KeelAesCbcPkcs7Padding(key);
+                return new CarinaAesCbcPkcs7Padding(key);
             case AesCbcPkcs5Padding:
-                return new KeelAesCbcPkcs5Padding(key);
+                return new CarinaAesCbcPkcs5Padding(key);
             case AesEcbPkcs5Padding:
-                return new KeelAesEcbPkcs5Padding(key);
+                return new CarinaAesEcbPkcs5Padding(key);
             case AesEcbPkcs7Padding:
-                return new KeelAesEcbPkcs7Padding(key);
+                return new CarinaAesEcbPkcs7Padding(key);
         }
         return null;
     }

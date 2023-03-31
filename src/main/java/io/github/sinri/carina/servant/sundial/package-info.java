@@ -1,1 +1,1 @@
-package io.github.sinri.keel.servant.sundial;
+package io.github.sinri.carina.servant.sundial;

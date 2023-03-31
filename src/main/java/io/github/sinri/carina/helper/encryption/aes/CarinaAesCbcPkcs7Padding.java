@@ -13,7 +13,7 @@ import java.util.Base64;
 /**
  * @since 2.8
  */
-public class KeelAesCbcPkcs7Padding extends KeelAesUsingPkcs7Padding {
+public class CarinaAesCbcPkcs7Padding extends CarinaAesUsingPkcs7Padding {
 
     /**
      * 偏移量，只有CBC模式才需要
@@ -23,7 +23,7 @@ public class KeelAesCbcPkcs7Padding extends KeelAesUsingPkcs7Padding {
     /**
      * @param key AES要求密钥长度为128位或192位或256位，java默认限制AES密钥长度最多128位
      */
-    public KeelAesCbcPkcs7Padding(String key) {
+    public CarinaAesCbcPkcs7Padding(String key) {
         super(key);
     }
 
@@ -34,7 +34,7 @@ public class KeelAesCbcPkcs7Padding extends KeelAesUsingPkcs7Padding {
                 Base64.getEncoder().encodeToString(secretKey.getEncoded());
         System.out.println("generated key = " + key);
 
-        KeelAesCbcPkcs7Padding aes = new KeelAesCbcPkcs7Padding(key);
+        CarinaAesCbcPkcs7Padding aes = new CarinaAesCbcPkcs7Padding(key);
 
         // 加密
         long lStart = System.currentTimeMillis();

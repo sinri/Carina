@@ -1,1 +1,1 @@
-package io.github.sinri.keel.helper.encryption.base32;
+package io.github.sinri.carina.helper.encryption.base32;

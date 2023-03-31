@@ -1,21 +1,21 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
-import io.github.sinri.keel.helper.authenticator.googleauth.GoogleAuthenticator;
-import io.github.sinri.keel.helper.authenticator.googleauth.GoogleAuthenticatorConfig;
-import io.github.sinri.keel.helper.encryption.bcrypt.BCrypt;
+import io.github.sinri.carina.helper.authenticator.googleauth.GoogleAuthenticator;
+import io.github.sinri.carina.helper.authenticator.googleauth.GoogleAuthenticatorConfig;
+import io.github.sinri.carina.helper.encryption.bcrypt.BCrypt;
 import io.vertx.core.Handler;
 
 /**
  * @since 2.9.4
  */
-public class KeelAuthenticationHelper {
-    private static final KeelAuthenticationHelper instance = new KeelAuthenticationHelper();
+public class CarinaAuthenticationHelper {
+    private static final CarinaAuthenticationHelper instance = new CarinaAuthenticationHelper();
 
-    private KeelAuthenticationHelper() {
+    private CarinaAuthenticationHelper() {
 
     }
 
-    static KeelAuthenticationHelper getInstance() {
+    static CarinaAuthenticationHelper getInstance() {
         return instance;
     }
 
@@ -50,7 +50,7 @@ public class KeelAuthenticationHelper {
      * @since 2.9.4
      */
     public GoogleAuthenticator getGoogleAuthenticator(Handler<GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder> configBuildHandler) {
-        var configBuilder = new GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder();
+        GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder configBuilder = new GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder();
         if (configBuildHandler != null) {
             configBuildHandler.handle(configBuilder);
         }

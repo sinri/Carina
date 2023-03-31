@@ -1,13 +1,13 @@
-package io.github.sinri.keel.logger;
+package io.github.sinri.carina.logger;
 
-public enum KeelLogLevel {
+public enum CarinaLogLevel {
     DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL, SILENT;
 
-    public boolean isEnoughSeriousAs(KeelLogLevel standardLevel) {
+    public boolean isEnoughSeriousAs(CarinaLogLevel standardLevel) {
         return this.ordinal() >= standardLevel.ordinal();
     }
 
-    public boolean isNegligibleThan(KeelLogLevel standardLevel) {
+    public boolean isNegligibleThan(CarinaLogLevel standardLevel) {
         return this.ordinal() < standardLevel.ordinal();
     }
 

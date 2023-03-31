@@ -1,4 +1,4 @@
-package io.github.sinri.keel.facade.async;
+package io.github.sinri.carina.facade.async;
 
 import io.vertx.core.Future;
 
@@ -24,7 +24,7 @@ public class FutureForEach<T> {
 
     private Future<Void> process(Iterable<T> collection) {
         Iterator<T> iterator = collection.iterator();
-        return KeelAsyncKit.repeatedlyCall(routineResult -> {
+        return CarinaAsyncKit.repeatedlyCall(routineResult -> {
             if (iterator.hasNext()) {
                 T next = iterator.next();
                 return asyncItemProcessFunction.apply(next);

@@ -1,1 +1,1 @@
-package io.github.sinri.keel.servant.queue;
+package io.github.sinri.carina.servant.queue;

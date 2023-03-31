@@ -1,23 +1,23 @@
-package io.github.sinri.keel.verticles;
+package io.github.sinri.carina.verticles;
 
-import io.github.sinri.keel.logger.event.KeelEventLogger;
+import io.github.sinri.carina.logger.event.CarinaEventLogger;
 import io.vertx.core.AbstractVerticle;
 
 import javax.annotation.Nonnull;
 
-abstract public class KeelVerticleBase extends AbstractVerticle implements KeelVerticle {
-    private KeelEventLogger logger;
+abstract public class CarinaVerticleBase extends AbstractVerticle implements CarinaVerticle {
+    private CarinaEventLogger logger;
 
-    public KeelVerticleBase() {
-        this.logger = KeelEventLogger.silentLogger();
+    public CarinaVerticleBase() {
+        this.logger = CarinaEventLogger.silentLogger();
     }
 
     @Override
-    final public @Nonnull KeelEventLogger getLogger() {
+    final public @Nonnull CarinaEventLogger getLogger() {
         return logger;
     }
 
-    final public void setLogger(@Nonnull KeelEventLogger logger) {
+    final public void setLogger(@Nonnull CarinaEventLogger logger) {
         this.logger = logger;
     }
 }

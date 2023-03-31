@@ -11,20 +11,20 @@ import java.util.List;
 /**
  * @since 2.8
  */
-public class KeelNetHelper {
-    private static final KeelNetHelper instance = new KeelNetHelper();
+public class CarinaNetHelper {
+    private static final CarinaNetHelper instance = new CarinaNetHelper();
 
-    private KeelNetHelper() {
+    private CarinaNetHelper() {
     }
 
-    static KeelNetHelper getInstance() {
+    static CarinaNetHelper getInstance() {
         return instance;
     }
 
     public static void main(String[] args) {
-        Long x = KeelNetHelper.getInstance().convertIPv4ToNumber("255.255.255.255");
+        Long x = CarinaNetHelper.getInstance().convertIPv4ToNumber("255.255.255.255");
         System.out.println("x=" + x);
-        String s = KeelNetHelper.getInstance().convertNumberToIPv4(x);
+        String s = CarinaNetHelper.getInstance().convertNumberToIPv4(x);
         System.out.println("s=" + s);
     }
 
@@ -35,10 +35,10 @@ public class KeelNetHelper {
             //System.out.println(i);
             byte[] address = i.getAddress();
             //System.out.println(address.length);
-            var p1 = Byte.toUnsignedLong(address[0]);
-            var p2 = Byte.toUnsignedLong(address[1]);
-            var p3 = Byte.toUnsignedLong(address[2]);
-            var p4 = Byte.toUnsignedLong(address[3]);
+            long p1 = Byte.toUnsignedLong(address[0]);
+            long p2 = Byte.toUnsignedLong(address[1]);
+            long p3 = Byte.toUnsignedLong(address[2]);
+            long p4 = Byte.toUnsignedLong(address[3]);
             //System.out.println(p1+"."+p2+"."+p3+"."+p4);
             return ((p1 << 24) + (p2 << 16) + (p3 << 8) + p4);
         } catch (UnknownHostException e) {
@@ -119,7 +119,7 @@ public class KeelNetHelper {
         String xForwardedFor = ctx.request().getHeader("X-Forwarded-For");
         if (xForwardedFor != null) {
             String[] split = xForwardedFor.split("[ ,]+");
-            for (var item : split) {
+            for (String item : split) {
                 clientIPChain.add(item);
             }
         }

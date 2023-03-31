@@ -1,4 +1,4 @@
-package io.github.sinri.keel.core;
+package io.github.sinri.carina.core;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 /**
  * since 2.9.3 moved from io.github.sinri.keel.servant.sundial to here.
  */
-public class KeelCronExpression {
+public class CronExpression {
     final Set<Integer> minuteOptions = new HashSet<>();
     final Set<Integer> hourOptions = new HashSet<>();
     final Set<Integer> dayOptions = new HashSet<>();
@@ -15,7 +15,7 @@ public class KeelCronExpression {
     final Set<Integer> weekdayOptions = new HashSet<>();
     private final String rawCronExpression;
 
-    public KeelCronExpression(String rawCronExpression) {
+    public CronExpression(String rawCronExpression) {
         this.rawCronExpression = rawCronExpression;
 
         String[] parts = rawCronExpression.trim().split("\\s+");

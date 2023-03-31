@@ -1,12 +1,12 @@
-package io.github.sinri.keel.logger.event.adapter;
+package io.github.sinri.carina.logger.event.adapter;
 
-import io.github.sinri.keel.logger.event.KeelEventLog;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
 import java.util.List;
 
-public interface KeelEventLoggerAdapter {
+public interface CarinaEventLoggerAdapter {
 
     /**
      * @since 2.9.4
@@ -22,7 +22,7 @@ public interface KeelEventLoggerAdapter {
         return voidPromise.future();
     }
 
-    Future<Void> dealWithLogs(List<KeelEventLog> buffer);
+    Future<Void> dealWithLogs(List<CarinaEventLog> buffer);
 
     Object processThrowable(Throwable throwable);
 }

@@ -1,15 +1,15 @@
-package io.github.sinri.keel.logger.event;
+package io.github.sinri.carina.logger.event;
 
-import io.github.sinri.keel.core.json.JsonifiableEntity;
-import io.github.sinri.keel.helper.KeelHelpers;
-import io.github.sinri.keel.logger.KeelLogLevel;
+import io.github.sinri.carina.core.json.JsonifiableEntity;
+import io.github.sinri.carina.helper.CarinaHelpers;
+import io.github.sinri.carina.logger.CarinaLogLevel;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Date;
 import java.util.Objects;
 
-public interface KeelEventLog extends JsonifiableEntity<KeelEventLog> {
+public interface CarinaEventLog extends JsonifiableEntity<CarinaEventLog> {
     @Deprecated
     String RESERVED_KEY_CONTEXT = "context";
     String RESERVED_KEY_EVENT_MSG = "msg";
@@ -22,14 +22,14 @@ public interface KeelEventLog extends JsonifiableEntity<KeelEventLog> {
 
 //    String RESERVED_KEY_TOPIC = "topic";
 
-    static KeelEventLog create(KeelLogLevel level, String topic) {
-        return new KeelEventLogImpl(level, topic);
+    static CarinaEventLog create(CarinaLogLevel level, String topic) {
+        return new CarinaEventLogImpl(level, topic);
     }
 
-    static Future<String> render(KeelEventLog eventLog) {
+    static Future<String> render(CarinaEventLog eventLog) {
         StringBuilder sb = new StringBuilder();
 
-        String dateExpression = KeelHelpers.datetimeHelper().getDateExpression(new Date(eventLog.timestamp()), "yyyy-MM-dd HH:mm:ss.SSS");
+        String dateExpression = CarinaHelpers.datetimeHelper().getDateExpression(new Date(eventLog.timestamp()), "yyyy-MM-dd HH:mm:ss.SSS");
 
         sb.append(dateExpression)
                 .append(" [").append(eventLog.level()).append("]")
@@ -37,27 +37,27 @@ public interface KeelEventLog extends JsonifiableEntity<KeelEventLog> {
                 .append(" ").append(eventLog.message())
                 .append("\n");
         JsonObject entries = new JsonObject();
-        for (var k : eventLog.toJsonObject().fieldNames()) {
+        for (String k : eventLog.toJsonObject().fieldNames()) {
             //if (Objects.equals(k, RESERVED_KEY_TIMESTAMP)) continue;
             //if (Objects.equals(k, RESERVED_KEY_LEVEL)) continue;
             if (Objects.equals(k, RESERVED_KEY_EVENT_MSG)) continue;
             entries.put(k, eventLog.toJsonObject().getValue(k));
         }
-        sb.append(KeelHelpers.jsonHelper().renderJsonToStringBlock("entries", entries));
+        sb.append(CarinaHelpers.jsonHelper().renderJsonToStringBlock("entries", entries));
         return Future.succeededFuture(sb.toString());
     }
 
     @Deprecated
-    KeelEventLog context(String key, Object value);
+    CarinaEventLog context(String key, Object value);
 
     @Deprecated
     Object context(String key);
 
-    KeelEventLog put(String key, Object value);
+    CarinaEventLog put(String key, Object value);
 
     Object get(String key);
 
-    KeelEventLog timestamp(long timestamp);
+    CarinaEventLog timestamp(long timestamp);
 
     long timestamp();
 
@@ -66,18 +66,18 @@ public interface KeelEventLog extends JsonifiableEntity<KeelEventLog> {
     }
 
     default String timestampExpression(String format) {
-        return KeelHelpers.datetimeHelper().getDateExpression(new Date(timestamp()), format);
+        return CarinaHelpers.datetimeHelper().getDateExpression(new Date(timestamp()), format);
     }
 
-    KeelEventLog level(KeelLogLevel level);
+    CarinaEventLog level(CarinaLogLevel level);
 
-    KeelLogLevel level();
+    CarinaLogLevel level();
 
-    KeelEventLog topic(String topic);
+    CarinaEventLog topic(String topic);
 
     String topic();
 
-    KeelEventLog message(String msg);
+    CarinaEventLog message(String msg);
 
     String message();
 }

@@ -1,22 +1,22 @@
-package io.github.sinri.keel.logger.event.center;
+package io.github.sinri.carina.logger.event.center;
 
-import io.github.sinri.keel.logger.event.KeelEventLog;
-import io.github.sinri.keel.logger.event.KeelEventLogCenter;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
+import io.github.sinri.carina.logger.event.CarinaEventLogCenter;
 import io.vertx.core.Future;
 
-public class KeelSilentEventLogCenter implements KeelEventLogCenter {
-    private final static KeelSilentEventLogCenter instance = new KeelSilentEventLogCenter();
+public class CarinaSilentEventLogCenter implements CarinaEventLogCenter {
+    private final static CarinaSilentEventLogCenter instance = new CarinaSilentEventLogCenter();
 
-    private KeelSilentEventLogCenter() {
+    private CarinaSilentEventLogCenter() {
 
     }
 
-    public static KeelSilentEventLogCenter getInstance() {
+    public static CarinaSilentEventLogCenter getInstance() {
         return instance;
     }
 
     @Override
-    public void log(KeelEventLog eventLog) {
+    public void log(CarinaEventLog eventLog) {
 
     }
 

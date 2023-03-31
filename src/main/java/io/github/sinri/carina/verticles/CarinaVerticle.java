@@ -1,7 +1,7 @@
-package io.github.sinri.keel.verticles;
+package io.github.sinri.carina.verticles;
 
-import io.github.sinri.keel.facade.Keel;
-import io.github.sinri.keel.logger.event.KeelEventLogger;
+import io.github.sinri.carina.facade.Carina;
+import io.github.sinri.carina.logger.event.CarinaEventLogger;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -11,16 +11,16 @@ import io.vertx.core.json.JsonObject;
 /**
  * @since 1.14
  */
-public interface KeelVerticle extends Verticle {
+public interface CarinaVerticle extends Verticle {
 
-    KeelEventLogger getLogger();
+    CarinaEventLogger getLogger();
 
     /**
      * @since 2.4 do not rely on context anymore
      * @since 2.7 became public
      * @since 2.9.3 become optional with nothing to do
      */
-    void setLogger(KeelEventLogger logger);
+    void setLogger(CarinaEventLogger logger);
 
     /**
      * copied from AbstractVerticle
@@ -46,14 +46,14 @@ public interface KeelVerticle extends Verticle {
 
 
     default Future<String> deployMe(DeploymentOptions deploymentOptions) {
-        return Keel.getVertx().deployVerticle(this, deploymentOptions);
+        return Carina.getVertx().deployVerticle(this, deploymentOptions);
     }
 
     /**
      * @since 2.8 add default implementation
      */
     default Future<Void> undeployMe() {
-        return Keel.getVertx().undeploy(deploymentID());
+        return Carina.getVertx().undeploy(deploymentID());
     }
 
 }

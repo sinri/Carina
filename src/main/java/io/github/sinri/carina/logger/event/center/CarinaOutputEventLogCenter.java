@@ -1,37 +1,42 @@
-package io.github.sinri.keel.logger.event.center;
+package io.github.sinri.carina.logger.event.center;
 
-import io.github.sinri.keel.helper.KeelHelpers;
-import io.github.sinri.keel.logger.event.KeelEventLog;
-import io.github.sinri.keel.logger.event.KeelEventLogger;
-import io.github.sinri.keel.logger.event.adapter.OutputAdapter;
+import io.github.sinri.carina.helper.CarinaHelpers;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
+import io.github.sinri.carina.logger.event.CarinaEventLogger;
+import io.github.sinri.carina.logger.event.adapter.OutputAdapter;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
 /**
  * @since 3.0.0
  */
-public class KeelOutputEventLogCenter extends KeelSyncEventLogCenter {
-    private final static KeelOutputEventLogCenter defaultInstance = new KeelOutputEventLogCenter(null);
-    private static Set<String> mixedStackPrefixSet = Set.of(
-            "io.vertx.",
-            "java.",
-            "io.netty."
-    );
+public class CarinaOutputEventLogCenter extends CarinaSyncEventLogCenter {
+    private final static CarinaOutputEventLogCenter defaultInstance = new CarinaOutputEventLogCenter(null);
+    private static Set<String> mixedStackPrefixSet;
 
-    private KeelOutputEventLogCenter(Function<KeelEventLog, Future<String>> converter) {
+
+    static {
+        mixedStackPrefixSet = new HashSet<>();
+        mixedStackPrefixSet.add("io.vertx.");
+        mixedStackPrefixSet.add("java.");
+        mixedStackPrefixSet.add("io.netty.");
+    }
+
+    private CarinaOutputEventLogCenter(Function<CarinaEventLog, Future<String>> converter) {
         super(OutputAdapter.getInstance(converter));
     }
 
-    public static KeelOutputEventLogCenter getInstance() {
+    public static CarinaOutputEventLogCenter getInstance() {
         return defaultInstance;
     }
 
-    public static KeelOutputEventLogCenter getInstance(Function<KeelEventLog, Future<String>> converter) {
-        return new KeelOutputEventLogCenter(converter);
+    public static CarinaOutputEventLogCenter getInstance(Function<CarinaEventLog, Future<String>> converter) {
+        return new CarinaOutputEventLogCenter(converter);
     }
 
     /**
@@ -39,31 +44,11 @@ public class KeelOutputEventLogCenter extends KeelSyncEventLogCenter {
      * @since 3.0.0
      */
     public static void setMixedStackPrefixSet(Set<String> mixedStackPrefixSet) {
-        KeelOutputEventLogCenter.mixedStackPrefixSet = mixedStackPrefixSet;
+        CarinaOutputEventLogCenter.mixedStackPrefixSet = mixedStackPrefixSet;
     }
 
-    @Deprecated(forRemoval = true)
-    public static KeelEventLogger instantLogger0() {
-        var logCenter = getInstance(KeelEventLog::render);
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        if (stackTrace.length == 0) {
-            return logCenter.createLogger("INSTANT", eventLog -> eventLog.put("stack", null));
-        } else {
-            JsonArray array = new JsonArray();
-
-            KeelHelpers.jsonHelper().filterStackTrace(
-                    stackTrace,
-                    mixedStackPrefixSet,
-                    (currentPrefix, ps) -> array.add(currentPrefix + " × " + ps),
-                    stackTraceElement -> array.add(stackTraceElement.toString())
-            );
-
-            return logCenter.createLogger("INSTANT", eventLog -> eventLog.put("stack", array));
-        }
-    }
-
-    public static KeelEventLogger instantLogger() {
-        var logCenter = getInstance(KeelEventLog::render);
+    public static CarinaEventLogger instantLogger() {
+        CarinaOutputEventLogCenter logCenter = getInstance(CarinaEventLog::render);
         return logCenter.createLogger("INSTANT", eventLog -> {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
             if (stackTrace.length <= 5) {
@@ -71,8 +56,8 @@ public class KeelOutputEventLogCenter extends KeelSyncEventLogCenter {
             } else {
                 JsonArray array = new JsonArray();
 
-                var slice = Arrays.copyOfRange(stackTrace, 5, stackTrace.length);
-                KeelHelpers.jsonHelper().filterStackTrace(
+                StackTraceElement[] slice = Arrays.copyOfRange(stackTrace, 5, stackTrace.length);
+                CarinaHelpers.jsonHelper().filterStackTrace(
                         slice,
                         mixedStackPrefixSet,
                         (currentPrefix, ps) -> array.add(currentPrefix + " × " + ps),
@@ -85,14 +70,14 @@ public class KeelOutputEventLogCenter extends KeelSyncEventLogCenter {
     }
 
     public static void main(String[] args) {
-        KeelOutputEventLogCenter.instantLogger().info("main");
+        CarinaOutputEventLogCenter.instantLogger().info("main");
 
         new P1().a();
     }
 
     private static class P1 {
         void a() {
-            KeelOutputEventLogCenter.instantLogger().info("p1::a");
+            CarinaOutputEventLogCenter.instantLogger().info("p1::a");
         }
     }
 }

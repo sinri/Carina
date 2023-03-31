@@ -1,8 +1,8 @@
-package io.github.sinri.keel.logger.event.adapter;
+package io.github.sinri.carina.logger.event.adapter;
 
-import io.github.sinri.keel.facade.async.KeelAsyncKit;
-import io.github.sinri.keel.helper.KeelHelpers;
-import io.github.sinri.keel.logger.event.KeelEventLog;
+import io.github.sinri.carina.facade.async.CarinaAsyncKit;
+import io.github.sinri.carina.helper.CarinaHelpers;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -15,10 +15,10 @@ import java.util.function.Function;
 /**
  * @since 3.0.0
  */
-public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
+public class AsyncFilesWriterAdapter implements CarinaEventLoggerAdapter {
     private final String logDir;
     private final String dateFormat;
-    private final Function<KeelEventLog, String> eventLogComposer;
+    private final Function<CarinaEventLog, String> eventLogComposer;
 
     public AsyncFilesWriterAdapter(String logDir) {
         this(logDir, "yyyy-MM-dd", null);
@@ -28,7 +28,7 @@ public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
         this(logDir, dateFormat, null);
     }
 
-    public AsyncFilesWriterAdapter(String logDir, String dateFormat, Function<KeelEventLog, String> eventLogComposer) {
+    public AsyncFilesWriterAdapter(String logDir, String dateFormat, Function<CarinaEventLog, String> eventLogComposer) {
         this.logDir = logDir;
         this.dateFormat = dateFormat;
         this.eventLogComposer = eventLogComposer;
@@ -41,10 +41,10 @@ public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
     }
 
     @Override
-    public Future<Void> dealWithLogs(List<KeelEventLog> buffer) {
-        Map<String, List<KeelEventLog>> fileLogsMap = new HashMap<>();
+    public Future<Void> dealWithLogs(List<CarinaEventLog> buffer) {
+        Map<String, List<CarinaEventLog>> fileLogsMap = new HashMap<>();
 
-        for (KeelEventLog eventLog : buffer) {
+        for (CarinaEventLog eventLog : buffer) {
             try {
                 String topic = eventLog.topic();
                 String[] topicComponents = topic.replaceAll("(^[.]+)|([.]+$)", "").split("[.]+");
@@ -73,7 +73,7 @@ public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
                     throw new IOException("Path " + finalDir + " not dir");
                 }
                 String finalFile = finalDir + File.separator + finalTopic + "-"
-                        + KeelHelpers.datetimeHelper().getDateExpression(new Date(eventLog.timestamp()), dateFormat)
+                        + CarinaHelpers.datetimeHelper().getDateExpression(new Date(eventLog.timestamp()), dateFormat)
                         + ".log";
 
                 fileLogsMap.computeIfAbsent(finalFile, s -> new ArrayList<>()).add(eventLog);
@@ -83,7 +83,7 @@ public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
             }
         }
 
-        return KeelAsyncKit.parallelForAllResult(fileLogsMap.entrySet(), entry -> {
+        return CarinaAsyncKit.parallelForAllResult(fileLogsMap.entrySet(), entry -> {
                     return dealWithLogsForOneFile(new File(entry.getKey()), entry.getValue());
                 })
                 .compose(parallelResult -> {
@@ -91,9 +91,9 @@ public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
                 });
     }
 
-    private Future<Void> dealWithLogsForOneFile(File file, List<KeelEventLog> buffer) {
+    private Future<Void> dealWithLogsForOneFile(File file, List<CarinaEventLog> buffer) {
         try (FileWriter fileWriter = new FileWriter(file, true)) {
-            for (KeelEventLog eventLog : buffer) {
+            for (CarinaEventLog eventLog : buffer) {
                 if (this.eventLogComposer == null) {
                     fileWriter.write(eventLog.toString() + "\n");
                 } else {
@@ -108,6 +108,6 @@ public class AsyncFilesWriterAdapter implements KeelEventLoggerAdapter {
 
     @Override
     public Object processThrowable(Throwable throwable) {
-        return KeelHelpers.stringHelper().renderThrowableChain(throwable);
+        return CarinaHelpers.stringHelper().renderThrowableChain(throwable);
     }
 }

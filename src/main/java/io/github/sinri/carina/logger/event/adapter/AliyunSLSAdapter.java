@@ -1,8 +1,8 @@
-package io.github.sinri.keel.logger.event.adapter;
+package io.github.sinri.carina.logger.event.adapter;
 
-import io.github.sinri.keel.facade.async.KeelAsyncKit;
-import io.github.sinri.keel.helper.KeelHelpers;
-import io.github.sinri.keel.logger.event.KeelEventLog;
+import io.github.sinri.carina.facade.async.CarinaAsyncKit;
+import io.github.sinri.carina.helper.CarinaHelpers;
+import io.github.sinri.carina.logger.event.CarinaEventLog;
 import io.vertx.core.Future;
 
 import java.util.*;
@@ -10,16 +10,15 @@ import java.util.*;
 /**
  * @since 3.0.0
  */
-public interface AliyunSLSAdapter extends KeelEventLoggerAdapter {
+public interface AliyunSLSAdapter extends CarinaEventLoggerAdapter {
     static AliyunSLSAdapter create() {
         ServiceLoader<AliyunSLSAdapter> serviceLoader = ServiceLoader.load(AliyunSLSAdapter.class);
-        Optional<AliyunSLSAdapter> first = serviceLoader.findFirst();
-        return first.orElseThrow();
+        return serviceLoader.iterator().next();
     }
 
     @Override
-    default Future<Void> dealWithLogs(List<KeelEventLog> buffer) {
-        Map<String, List<KeelEventLog>> topicMap = new HashMap<>();
+    default Future<Void> dealWithLogs(List<CarinaEventLog> buffer) {
+        Map<String, List<CarinaEventLog>> topicMap = new HashMap<>();
 
         buffer.forEach(eventLog -> {
             String topic = eventLog.topic();
@@ -30,11 +29,11 @@ public interface AliyunSLSAdapter extends KeelEventLoggerAdapter {
                     .add(eventLog);
         });
 
-        return KeelAsyncKit.iterativelyCall(topicMap.keySet(), topic -> {
+        return CarinaAsyncKit.iterativelyCall(topicMap.keySet(), topic -> {
             return Future.succeededFuture()
                     .compose(v -> {
-                        List<KeelEventLog> keelEventLogs = topicMap.get(topic);
-                        return dealWithLogsForOneTopic(topic, keelEventLogs);
+                        List<CarinaEventLog> eventLogs = topicMap.get(topic);
+                        return dealWithLogsForOneTopic(topic, eventLogs);
                     })
                     .compose(v -> {
                         return Future.succeededFuture();
@@ -44,10 +43,10 @@ public interface AliyunSLSAdapter extends KeelEventLoggerAdapter {
         });
     }
 
-    Future<Void> dealWithLogsForOneTopic(String topic, List<KeelEventLog> buffer);
+    Future<Void> dealWithLogsForOneTopic(String topic, List<CarinaEventLog> buffer);
 
     @Override
     default Object processThrowable(Throwable throwable) {
-        return KeelHelpers.jsonHelper().renderThrowableChain(throwable);
+        return CarinaHelpers.jsonHelper().renderThrowableChain(throwable);
     }
 }

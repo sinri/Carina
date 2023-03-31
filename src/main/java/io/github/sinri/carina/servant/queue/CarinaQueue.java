@@ -1,9 +1,9 @@
-package io.github.sinri.keel.servant.queue;
+package io.github.sinri.carina.servant.queue;
 
-import io.github.sinri.keel.facade.Keel;
-import io.github.sinri.keel.facade.async.KeelAsyncKit;
-import io.github.sinri.keel.logger.event.KeelEventLogger;
-import io.github.sinri.keel.verticles.KeelVerticleBase;
+import io.github.sinri.carina.facade.Carina;
+import io.github.sinri.carina.facade.async.CarinaAsyncKit;
+import io.github.sinri.carina.logger.event.CarinaEventLogger;
+import io.github.sinri.carina.verticles.CarinaVerticleBase;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 
@@ -14,7 +14,7 @@ import io.vertx.core.Future;
  *
  * @since 2.1
  */
-public abstract class KeelQueue extends KeelVerticleBase {
+public abstract class CarinaQueue extends CarinaVerticleBase {
 
     private QueueStatus queueStatus = QueueStatus.INIT;
 
@@ -22,15 +22,15 @@ public abstract class KeelQueue extends KeelVerticleBase {
         return queueStatus;
     }
 
-    protected KeelQueue setQueueStatus(QueueStatus queueStatus) {
+    protected CarinaQueue setQueueStatus(QueueStatus queueStatus) {
         this.queueStatus = queueStatus;
         return this;
     }
 
-    abstract protected KeelEventLogger prepareLogger();
+    abstract protected CarinaEventLogger prepareLogger();
 
 
-    abstract protected KeelQueueNextTaskSeeker getNextTaskSeeker();
+    abstract protected CarinaQueueNextTaskSeeker getNextTaskSeeker();
 
     public void start() {
         // 部署之后重新加载一遍
@@ -50,7 +50,7 @@ public abstract class KeelQueue extends KeelVerticleBase {
 
     protected final void routine() {
         getLogger().debug("KeelQueue::routine start");
-        KeelQueueNextTaskSeeker nextTaskSeeker = getNextTaskSeeker();
+        CarinaQueueNextTaskSeeker nextTaskSeeker = getNextTaskSeeker();
 
         Future.succeededFuture()
                 .compose(v -> {
@@ -76,7 +76,7 @@ public abstract class KeelQueue extends KeelVerticleBase {
                 .eventually(v -> {
                     long waitingMs = nextTaskSeeker.waitingMs();
                     getLogger().debug("set timer for next routine after " + waitingMs + " ms");
-                    Keel.getVertx().setTimer(waitingMs, timerID -> routine());
+                    Carina.getVertx().setTimer(waitingMs, timerID -> routine());
                     return Future.succeededFuture();
                 })
         ;
@@ -90,10 +90,10 @@ public abstract class KeelQueue extends KeelVerticleBase {
         return Future.succeededFuture();
     }
 
-    private Future<Void> whenSignalRunCame(KeelQueueNextTaskSeeker nextTaskSeeker) {
+    private Future<Void> whenSignalRunCame(CarinaQueueNextTaskSeeker nextTaskSeeker) {
         this.queueStatus = QueueStatus.RUNNING;
 
-        return KeelAsyncKit.repeatedlyCall(routineResult -> {
+        return CarinaAsyncKit.repeatedlyCall(routineResult -> {
                     return Future.succeededFuture()
                             .compose(v -> nextTaskSeeker.get())
                             .compose(task -> {

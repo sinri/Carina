@@ -1,8 +1,8 @@
 package io.github.sinri.carina.helper;
 
-import io.github.sinri.keel.helper.runtime.CPUTimeResult;
-import io.github.sinri.keel.helper.runtime.GCStatResult;
-import io.github.sinri.keel.helper.runtime.MemoryResult;
+import io.github.sinri.carina.helper.runtime.CPUTimeResult;
+import io.github.sinri.carina.helper.runtime.GCStatResult;
+import io.github.sinri.carina.helper.runtime.MemoryResult;
 import io.vertx.core.json.JsonObject;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -15,14 +15,14 @@ import java.util.Objects;
 /**
  * @since 2.9.3
  */
-public class KeelRuntimeHelper {
-    private static final KeelRuntimeHelper instance = new KeelRuntimeHelper();
+public class CarinaRuntimeHelper {
+    private static final CarinaRuntimeHelper instance = new CarinaRuntimeHelper();
 
-    private KeelRuntimeHelper() {
+    private CarinaRuntimeHelper() {
 
     }
 
-    static KeelRuntimeHelper getInstance() {
+    static CarinaRuntimeHelper getInstance() {
         return instance;
     }
 

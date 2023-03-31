@@ -1,7 +1,7 @@
-package io.github.sinri.keel.servant.funnel;
+package io.github.sinri.carina.servant.funnel;
 
-import io.github.sinri.keel.facade.async.KeelAsyncKit;
-import io.github.sinri.keel.verticles.KeelVerticleBase;
+import io.github.sinri.carina.facade.async.CarinaAsyncKit;
+import io.github.sinri.carina.verticles.CarinaVerticleBase;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -13,11 +13,11 @@ import java.util.function.Supplier;
 /**
  * @since 3.0.0
  */
-public class KeelFunnel extends KeelVerticleBase {
+public class CarinaFunnel extends CarinaVerticleBase {
     private final AtomicReference<Promise<Void>> interruptRef;
     private final Queue<Supplier<Future<Void>>> queue;
 
-    public KeelFunnel() {
+    public CarinaFunnel() {
         this.queue = new ConcurrentLinkedQueue<>();
         this.interruptRef = new AtomicReference<>();
     }
@@ -36,11 +36,11 @@ public class KeelFunnel extends KeelVerticleBase {
 
     @Override
     public void start() throws Exception {
-        KeelAsyncKit.endless(promise -> {
+        CarinaAsyncKit.endless(promise -> {
             this.interruptRef.set(null);
             //System.out.println("ENDLESS "+System.currentTimeMillis());
 
-            KeelAsyncKit.repeatedlyCall(routineResult -> {
+            CarinaAsyncKit.repeatedlyCall(routineResult -> {
                         Supplier<Future<Void>> supplier = queue.poll();
                         if (supplier == null) {
                             // no job to do
@@ -62,7 +62,7 @@ public class KeelFunnel extends KeelVerticleBase {
                     .andThen(ar -> {
                         this.interruptRef.set(Promise.promise());
 
-                        KeelAsyncKit.sleep(60_000L, getCurrentInterrupt())
+                        CarinaAsyncKit.sleep(60_000L, getCurrentInterrupt())
                                 .andThen(slept -> {
                                     promise.complete();
                                 });

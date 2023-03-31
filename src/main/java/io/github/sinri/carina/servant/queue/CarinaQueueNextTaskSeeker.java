@@ -1,4 +1,4 @@
-package io.github.sinri.keel.servant.queue;
+package io.github.sinri.carina.servant.queue;
 
 import io.vertx.core.Future;
 
@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * @since 2.7 moved here
  * @since 2.8 extends Supplier{Future{KeelQueueTask}}
  */
-public interface KeelQueueNextTaskSeeker extends Supplier<Future<KeelQueueTask>> {
+public interface CarinaQueueNextTaskSeeker extends Supplier<Future<CarinaQueueTask>> {
 
     /**
      * 找出一个task且其已完成lockTaskBeforeDeployment方法的调用
@@ -17,7 +17,7 @@ public interface KeelQueueNextTaskSeeker extends Supplier<Future<KeelQueueTask>>
      * @since 2.8
      */
     @Override
-    Future<KeelQueueTask> get();
+    Future<CarinaQueueTask> get();
 
     /**
      * @since 2.8 default to 10s

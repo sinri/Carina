@@ -1,21 +1,21 @@
-package io.github.sinri.keel.helper;
+package io.github.sinri.carina.helper;
 
-import io.github.sinri.keel.helper.encryption.base32.Base32;
+import io.github.sinri.carina.helper.encryption.base32.Base32;
 import io.vertx.core.buffer.Buffer;
 
 import java.util.Base64;
 
-public class KeelBinaryHelper {
+public class CarinaBinaryHelper {
     final static char[] HEX_DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     final static char[] HEX_DIGITS_UPPER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-    private static final KeelBinaryHelper instance = new KeelBinaryHelper();
+    private static final CarinaBinaryHelper instance = new CarinaBinaryHelper();
 
-    private KeelBinaryHelper() {
+    private CarinaBinaryHelper() {
 
     }
 
-    static KeelBinaryHelper getInstance() {
+    static CarinaBinaryHelper getInstance() {
         return instance;
     }
 

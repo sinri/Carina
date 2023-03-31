@@ -14,12 +14,12 @@ import java.util.Base64;
 /**
  * @since 2.8
  */
-public class KeelAesEcbPkcs7Padding extends KeelAesUsingPkcs7Padding {
+public class CarinaAesEcbPkcs7Padding extends CarinaAesUsingPkcs7Padding {
 
     /**
      * @param key AES要求密钥长度为128位或192位或256位，java默认限制AES密钥长度最多128位
      */
-    public KeelAesEcbPkcs7Padding(String key) {
+    public CarinaAesEcbPkcs7Padding(String key) {
         super(key);
     }
 
