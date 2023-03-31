@@ -1,6 +1,6 @@
 package io.github.sinri.carina.facade.async;
 
-import io.github.sinri.keel.facade.Keel;
+import io.github.sinri.carina.facade.Carina;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -22,12 +22,12 @@ public class FutureSleep {
     static Future<Void> call(long time, Promise<Void> interrupter) {
         Promise<Void> promise = Promise.promise();
         if (time < 1) time = 1;
-        long timer_id = Keel.getVertx().setTimer(time, timerID -> {
+        long timer_id = Carina.getVertx().setTimer(time, timerID -> {
             promise.complete();
         });
         if (interrupter != null) {
             interrupter.future().onSuccess(interrupted -> {
-                Keel.getVertx().cancelTimer(timer_id);
+                Carina.getVertx().cancelTimer(timer_id);
                 promise.tryComplete();
             });
         }

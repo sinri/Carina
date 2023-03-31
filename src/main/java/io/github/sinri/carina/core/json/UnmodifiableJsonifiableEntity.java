@@ -44,7 +44,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable String readString(String... args) {
         return read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return String.class;
@@ -56,7 +56,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable Number readNumber(String... args) {
         return read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return Number.class;
@@ -104,7 +104,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable Boolean readBoolean(String... args) {
         return read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return Boolean.class;
@@ -116,7 +116,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable JsonObject readJsonObject(String... args) {
         return read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonObject.class;
@@ -128,7 +128,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable JsonArray readJsonArray(String... args) {
         return read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -140,7 +140,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable List<JsonObject> readJsonObjectArray(String... args) {
         JsonArray array = read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -164,7 +164,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable List<String> readStringArray(String... args) {
         JsonArray array = read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -186,7 +186,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable List<Integer> readIntegerArray(String... args) {
         JsonArray array = read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -212,7 +212,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable List<Long> readLongArray(String... args) {
         JsonArray array = read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -238,7 +238,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable List<Float> readFloatArray(String... args) {
         JsonArray array = read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -264,7 +264,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable List<Double> readDoubleArray(String... args) {
         JsonArray array = read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return JsonArray.class;
@@ -290,7 +290,7 @@ public interface UnmodifiableJsonifiableEntity extends Iterable<Map.Entry<String
      */
     default @Nullable Object readValue(String... args) {
         return read(jsonPointer -> {
-            for (var arg : args) {
+            for (String arg : args) {
                 jsonPointer.append(arg);
             }
             return Object.class;

@@ -1,6 +1,6 @@
 package io.github.sinri.carina.helper;
 
-import io.github.sinri.keel.helper.encryption.base32.Base32;
+import io.github.sinri.carina.helper.encryption.base32.Base32;
 import io.vertx.core.buffer.Buffer;
 
 import java.util.*;

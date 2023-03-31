@@ -32,8 +32,8 @@ package io.github.sinri.carina.helper.authenticator.googleauth;
 
 //import org.apache.http.client.utils.URIBuilder;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * This class provides helper methods to create a QR code containing the
@@ -59,7 +59,11 @@ public final class GoogleAuthenticatorQRGenerator {
      * @return the URL-encoded string.
      */
     private static String internalURLEncode(String s) {
-        return URLEncoder.encode(s, StandardCharsets.UTF_8);
+        try {
+            return URLEncoder.encode(s, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -122,7 +126,7 @@ public final class GoogleAuthenticatorQRGenerator {
      */
     public static String getOtpAuthURL(String issuer,
                                        String accountName,
-                                       GoogleAuthenticatorKey credentials) {
+                                       GoogleAuthenticatorKey credentials) throws UnsupportedEncodingException {
 
         return String.format(
                 TOTP_URI_FORMAT,
@@ -149,25 +153,25 @@ public final class GoogleAuthenticatorQRGenerator {
      */
     public static String getOtpAuthTotpURL(String issuer,
                                            String accountName,
-                                           GoogleAuthenticatorKey credentials) {
+                                           GoogleAuthenticatorKey credentials) throws UnsupportedEncodingException {
         StringBuilder url = new StringBuilder();
         url.append("otpauth://totp/")
-                .append(URLEncoder.encode(formatLabel(issuer, accountName), StandardCharsets.UTF_8))
+                .append(URLEncoder.encode(formatLabel(issuer, accountName), "utf-8"))
                 .append("?secret=")
-                .append(URLEncoder.encode(credentials.getKey(), StandardCharsets.UTF_8));
+                .append(URLEncoder.encode(credentials.getKey(), "utf-8"));
 
         if (issuer != null) {
             if (issuer.contains(":")) {
                 throw new IllegalArgumentException("Issuer cannot contain the `:` character.");
             }
-            url.append("&issuer=").append(URLEncoder.encode(issuer, StandardCharsets.UTF_8));
+            url.append("&issuer=").append(URLEncoder.encode(issuer, "utf-8"));
         }
 
         final GoogleAuthenticatorConfig config = credentials.getConfig();
         url
-                .append("&algorithm=").append(URLEncoder.encode(getAlgorithmName(config.getHmacHashFunction()), StandardCharsets.UTF_8))
-                .append("&digits=").append(URLEncoder.encode(String.valueOf(config.getCodeDigits()), StandardCharsets.UTF_8))
-                .append("&period=").append(URLEncoder.encode(String.valueOf((int) (config.getTimeStepSizeInMillis() / 1000)), StandardCharsets.UTF_8));
+                .append("&algorithm=").append(URLEncoder.encode(getAlgorithmName(config.getHmacHashFunction()), "utf-8"))
+                .append("&digits=").append(URLEncoder.encode(String.valueOf(config.getCodeDigits()), "utf-8"))
+                .append("&period=").append(URLEncoder.encode(String.valueOf((int) (config.getTimeStepSizeInMillis() / 1000)), "utf-8"));
 
         return url.toString();
 

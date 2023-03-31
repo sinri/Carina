@@ -35,7 +35,7 @@ public class CarinaConfiguration implements JsonifiableEntity<CarinaConfiguratio
         Set<String> plainKeySet = new HashSet<>();
         properties.forEach((key, value) -> plainKeySet.add(key.toString()));
 
-        for (var plainKey : plainKeySet) {
+        for (String plainKey : plainKeySet) {
             String[] components = plainKey.split("\\.");
             List<Object> keychain = Arrays.asList(components);
             CarinaHelpers.jsonHelper()

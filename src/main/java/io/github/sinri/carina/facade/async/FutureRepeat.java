@@ -1,6 +1,6 @@
 package io.github.sinri.carina.facade.async;
 
-import io.github.sinri.keel.facade.Keel;
+import io.github.sinri.carina.facade.Carina;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -32,7 +32,7 @@ public class FutureRepeat {
                         if (routineResult.isToStop()) {
                             finalPromise.complete();
                         } else {
-                            Keel.getVertx().setTimer(1L, x -> routine(routineResult, finalPromise));
+                            Carina.getVertx().setTimer(1L, x -> routine(routineResult, finalPromise));
                         }
                     } else {
                         finalPromise.fail(shouldStopAR.cause());
